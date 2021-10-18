@@ -1,0 +1,256 @@
+
+router.post('/Create_New_Category',
+function (req,res)
+{
+    const {0:category_names,...other} = req;
+
+    if (Errors.ObjectChecks.ObjectHasProperty(category_names)===true) // Defense if there is no english name
+    {
+        const {0:prefixQueryResult}= db.query(`LET tempCol = collections()[*FILTER LIKE(CURRENT.name,"_____\\\\_%") RETURN CURRENT.name]
+// '_' должно быть столько, сколько букв в префиксе
+// выибираем только те коллекции, у которых есть префикс (AAAAZ_...)
+
+LET temp_pref =
+(
+    RETURN trim(NTH(SPLIT(last(tempCol),"_"),0),'[""]')
+) // Получаем последний префикс среди всех коллекций (AAAAZ_, где Z - любая буква)
+
+LET count_cols = tempCol[* FILTER LIKE(CURRENT,concat(temp_pref[0],"_%"))]
+
+//Если коллекций 2, то возвращаем префикс, иначе ошибка
+RETURN count(count_cols) == 2 ?
+{"Prefix":temp_pref[0]}:
+{"Prefix":CONCAT("Missing 1 of collection WITH prefixe: '",temp_pref[0],"'. Please contact with DB admin and check collections")}`
+        ).toArray()
+        let currentPrefix = prefixQueryResult[Object.keys(prefixQueryResult)]
+
+        if (currentPrefix.length === 5)
+        {
+            let categoryCollectionName = SFn.ReplaceSpacesToUnderscore(category_names.en.toLowerCase(),true)
+            const next_prefix = SFn.CreateNewPrefix(currentPrefix)
+
+            const {0:template_to_parse} = await (await db.query(SFn.GetTemplateDocumentOfCollection("support_collections_info") )).all();
+
+            const new_category_collection_name=`${next_prefix}_category_${categoryCollectionName}`
+            const new_property_collection_name=`${next_prefix}_properties_${categoryCollectionName}`
+
+            let document_template =SFn.ParseDocument(template_to_parse,new_category_collection_name,true)
+
+
+            db.createCollection(new_category_collection_name)
+            db.createCollection(new_property_collection_name)
+
+            await db.query(
+                {
+                    query:`for i in 1..2
+upsert {_key:to_string(@property_key)}
+insert ${document_template}
+update {name:merge(OLD.name,@property_names)} in support_collections_info return NEW`,
+                    bindVars:
+                        {
+                            "property_key": new_category_collection_name,
+                            "property_names": category_names
+                        }
+                }
+            ).then(()=>
+                {
+                    ViewUpdater(new_category_collection_name)
+                }
+            )
+
+        } else {console.log(currentPrefix)}
+    }
+
+    // "Test_Cat_KEK"
+}).response(['application/json'],  'POST request.')
+    .description("2.2\n" +
+        "RU: Добавление новой категории.\n" +
+        "Функция принимает новое название категории. " +
+        "Берёт последний имеющийся префикс (“AAAAB_”), создаёт новую коллекцию категорий и новую коллекцию свойств\n\n" +
+        "2.2\nEN: Creation of new category.\n" +
+        "Function gets new name of the category." +
+        "Takes the last prefix of the category collections ('AAAAB_'), creates new collections of the category and the property")
+    .body(joi.object().required(),'Input field: "Test_Cat_KEK"');
+
+function CreateNewPrefixe(oldPref)
+{
+  //convert
+  var chars = oldPref.split('');
+
+  const charCodes=[]
+  for(let i =0;i<chars.length;i++)
+  {
+    charCodes.push(chars[i].charCodeAt(0))
+    //console.log("arr value: "+charCodes[i])
+  }
+//get last index
+  let index=charCodes.length-1
+//console.log("index value:"+index)
+
+// +1 to last
+  while(true)
+  {
+    if(charCodes[index]%90!==0)
+    {
+      charCodes[index]++
+      break
+    }else
+    {
+      charCodes[index]=65
+      index--
+      if(index<=-1)
+      {
+        break
+      }
+    }
+  }
+// Converting inverse
+  let charChars =[]
+  for(let i =0;i<charCodes.length;i++)
+  {
+    charChars.push(String.fromCharCode(charCodes[i]))
+  }
+
+  let newStringChars=charChars.join("");
+
+  console.log("Old value: "+oldPref)
+  console.log("New value: "+newStringChars)
+  return newStringChars;
+}
+
+function CreateNewCategoryAndPropertiesCollections(prefixe,collectionName)
+{
+  const cat=`${prefixe}_Category_${collectionName}`
+  const prop=`${prefixe}_Properties_${collectionName}`
+  db._createDocumentCollection(cat);
+  db._createDocumentCollection(prop);
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+//const schema = joi.array().length(5);
+router.post('/Insert_New_Property', function (req,res)
+{
+    let cat_name= req.body[0];
+    let new_prop = req.body[1];
+
+    let prop_collection_regex_schema = `_____\\_Properties_${cat_name}`
+    const prop_collection_name = db._query(
+        `let m = collections()[* filter like(CURRENT.name,@reference_col)]
+          return m[0].name`,
+        {"reference_col": prop_collection_regex_schema}
+    ).toArray();
+
+    const category_collection_name = `${prop_collection_name[0].substring(0,5)}_Category_${cat_name}`
+    const props_collection_name = db._collection(prop_collection_name[0])
+
+    const key_value_name_newProp = Get_Normal_Prop_Name(new_prop)
+    const new_doc = db._query(aql
+      `INSERT {_key:${key_value_name_newProp}, name:${new_prop},IDs:[]} into ${props_collection_name} return NEW`
+    ).toArray()
+
+    const category_items=db._query(
+        `FOR item IN @@category_collection RETURN item.name`,
+        {"@category_collection": category_collection_name}
+    ).toArray()
+
+    const done_Respone= {
+        Property_Name: `"${new_prop}"`,
+        Related_Items: `${category_items}`
+    }
+    res.send(done_Respone);
+
+    //["Marketing_In_Social_Web","Some Test Prop"]
+}).body(joi.required(), 'Input field: ["Marketing_In_Social_Web","Some Test Property"]').
+response(['application/json'],  'POST request.').
+description("3.2.\nRU: Функция на добавление нового свойства\n" +
+    "Функция принимает:\n" +
+    "1. Название выбранной категории.\n" +
+    "2. Название нового свойства\n" +
+    "Находит коллекцию свойств данной категории. Добавляет новое свойство в соответсвующую коллекцию свойств\n\n" +
+    "EN: Function for adding a new property\n" +
+    "Function gets:\n" +
+    "1. Name of selected category.\n" +
+    "2. Name of the new property.\n" +
+    "Searches the property collection of the selected category. Adds new property in the found prop collection ");
+
+function Get_Normal_Prop_Name(oldProp,setUnderlineSpace = true)
+{
+    if(setUnderlineSpace)
+    {
+        const reg = new RegExp(' ','gi')
+        return oldProp.replace(reg,'_')
+    }
+    else
+    {
+        const reg = new RegExp('_','gi')
+        return oldProp.replace(reg,' ')
+    }
+
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+////Updating Prop
+router.post('/Insert_Items_In_New_Prop',function (req,res){
+    let cat_name= req.body[0]; //req.body[0]
+    let prop_name = req.body[1];
+    let target_items = req.body[2]
+
+    let prop_collection_regex_schema = `_____\\_Properties_${cat_name}`
+    const prop_collection_full_name = db._query(
+        `let m = collections()[* filter like(CURRENT.name,@reference_col)]
+          return m[0].name`,
+        {"reference_col": prop_collection_regex_schema}
+    ).toArray();
+
+    const category_collection_name = `${prop_collection_full_name[0].substring(0,5)}_Category_${cat_name}`
+    const props_collection_name = prop_collection_full_name[0]
+
+    ////Tests queries
+    // const IDs = await (await db.query(
+    //     `   FOR m IN @@Cat_collection
+    //         FILTER m.name IN ${target_items}
+    //         RETURN m._id`,
+    //     {"@Cat_collection":category_collection_name}
+    // )).all()
+    // console.log(IDs)
+    //
+    // await db.query
+    // (
+    //     `FOR p IN @@Prop_Collection
+    //     FILTER p.name == @prop_name
+    //     Update { "_key": p._key, "IDs": Append(p.IDs, ["Aa","Bb"]) } in @@Prop_Collection`,
+    //     {
+    //         "@Prop_Collection":props_collection_name,
+    //         "@prop_name":prop_name
+    //     }
+    // )
+
+    const k = db._query
+    (
+        `   LET IDS = (FOR m IN @@Cat_collection
+            FILTER m.name IN ${target_items}
+            RETURN m._id)
+            
+            FOR p IN @@Prop_Collection
+            FILTER p.name == @prop_name
+            Update { "_key": p._key, "IDs": Append(p.IDs, IDS,true) } in @@Prop_Collection`,
+        {
+            "@Cat_collection":category_collection_name,
+            "@Prop_Collection":props_collection_name,
+            "prop_name":prop_name
+        }
+    )
+    res.send("success")
+    //["Marketing_In_Social_Web","Some Test Prop","[\"SMMplanner\",\"Postmypost\",\"SMMBOT.net\",\"Instaplus.pro\"]"]
+}).body(joi.required(), 'Array').response(['application/json'],  'POST request.');
+
+router.get('Test',function (req,res)
+{
+    const key = SFn.GetFreeIndex("test_1")
+    const m = db._query(key).toArray();
+    res.send(m[0])
+})
+
