@@ -115,6 +115,8 @@ router.post('/Insert_Items_In_New_Prop',function (req,res){
 
 }).body(joi.required(), 'Array').response(['application/json'],  'POST request.');
 
+
+// // // 11.2
 router.post( '/Insert_Update_Phone_Item',function (req,res)
 {
     let {0:item_category,1:item_key,2:new_phone_item,...other} = req.body
@@ -190,7 +192,8 @@ router.post('/Get_Phone_Item', function(req,res)
 // //     ]
 // // Get_Phone_Item(req)
 // //
-//
+
+
 // ////10.2
 router.post('/Insert_Update_Organization_Name_Item' ,function(req,res)
 {
@@ -226,7 +229,8 @@ in @@target_collection return NEW.organization_name`,
 // // //     "OWLM organization name"
 // // // ]
 // // // Insert_Update_Organization_Name_Item(req)
-// //
+
+
 // // // // 10.1
 router.post('/Get_Organization_Name_Item',function(req,res)
 {
@@ -256,7 +260,8 @@ router.post('/Get_Organization_Name_Item',function(req,res)
 // // // //         2
 // // // //     ]
 // // // // Get_Organization_Name_Item(req)
-// // //
+
+
 // // // //9.2
 router.post('/Insert_Update_eMail_Item',function(req,res)
 {
@@ -293,7 +298,8 @@ in @@target_collection return NEW.email`,
 // // // //     "OWLM_eMail@gmail.com"
 // // // // ]
 // // // // Insert_Update_eMail_Item(req)
-// // //
+
+
 // // // 9.1
 router.post('/Get_eMail_Item',function(req,res)
 {
@@ -324,7 +330,8 @@ router.post('/Get_eMail_Item',function(req,res)
 // // //     2
 // // // ]
 // // // Get_eMail_Item(req)
-// //
+
+
 // // // 8.2
 router.post('/Insert_Update_Company_Name_Item',function(req,res)
 {
@@ -357,7 +364,7 @@ in @@target_collection return NEW.company_name`,
 // // //     "OWLM"
 // // // ]
 // // // Insert_Update_Company_Name_Item(req)
-// //
+
 // // // 8.1
 router.post('/Get_Company_Name_Item',function(req,res)
 {
@@ -387,7 +394,7 @@ router.post('/Get_Company_Name_Item',function(req,res)
 // // //     2
 // // // ]
 // // // Get_Company_Name_Item(req)
-// //
+
 // // // 7.3
 router.post('Remove_Presentation_In_Item',function(req,res)
 {
@@ -429,7 +436,7 @@ in @@target_collection return NEW`,
 // // //     ]
 // // // ]
 // // // Remove_Presentation_In_Item(req)
-// //
+
 // // // 7.2
 router.post('/Insert_New_Presentation_In_Item',function(req,res)
 {
@@ -471,8 +478,8 @@ in @@ref_target_collection return NEW`,
 // // // ]
 // // //
 // // // Insert_New_Presentation_In_Item(req)
-// //
-// //
+
+
 // // // 7.1
 router.post('/Get_Presentations_Item',function(req,res)
 {
@@ -501,7 +508,7 @@ router.post('/Get_Presentations_Item',function(req,res)
 // // //     2
 // // // ]
 // // // Get_Presentations_Item(req)
-// //
+
 // // // 6.3
 router.post('/Remove_Images_In_Item',function(req,res)
 {
@@ -541,7 +548,7 @@ in @@target_collection return NEW`,
 // // //     ]
 // // // ]
 // // // Remove_Images_In_Item(req)
-// //
+
 // // // 6.2
 router.post('Insert_Images_In_Item',function(req,res)
 {
@@ -580,7 +587,7 @@ in @@ref_target_collection return NEW`,
 // //     ]
 // // ]
 // // Insert_Images_In_Item(req)
-//
+
 // // 6.1
 router.post('Get_Images_Item',function(req,res)
 {
@@ -611,7 +618,7 @@ router.post('Get_Images_Item',function(req,res)
 // //     2
 // // ]
 // // Get_Images_Item(req)
-//
+
 // // 5.3
 router.post('/Remove_Main_Logo_Item',function(req,res)
 {
@@ -715,7 +722,7 @@ return main_logo==""||main_logo==null?"Main logo is missing":main_logo`,
 // 4.3
 router.post('/Update_Item_Description_In_One_Language',function(req,res)
 {
-    let {0:item_key,1:item_category,2:target_language,3:new_description,...other} = req.body
+    let {0:item_category,1:item_key,2:target_language,3:new_description,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
     target_language = SFn.GetTargetLanguageDefence(target_language)
     new_description = new_description!=null&&new_description!==""?new_description:`Description on '${target_language}' language is missing`
@@ -740,10 +747,10 @@ in @@target_category return NEW`,
 // // test
 // let req =
 // [
-//     2,
 //     "AAAAA_Category_Marketing_In_Social_Web",
-//     "",
-//     ""
+//     2,
+//     "ru",
+//     "New description"
 //
 // ]
 // Update_Item_Description_In_One_Language(req)
@@ -751,7 +758,7 @@ in @@target_category return NEW`,
 // 4.2
 router.post('/Update_Item_Description_In_Every_Language',function(req,res)
 {
-    let {0:item_key,1:item_category,2:description,...other} = req.body
+    let {0:item_category,1:item_key,2:description,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
 
     if(Errors.ObjectChecks.ObjectHasProperty(description)===true)
@@ -780,8 +787,8 @@ in @@target_category`,
 // // test 4.2
 // let req =
 // [
-//     2,
 //     "AAAAA_Category_Marketing_In_Social_Web",
+//     2,
 //     {
 //         "de":"Some description on German from JS",
 //         "en":"Some description on English from JS",
@@ -795,7 +802,7 @@ in @@target_category`,
 // 4.1
 router.post('/Get_Item_Description',function(req,res)
 {
-    let {0:item_key,1:item_category,2:target_language,...other} = req.body
+    let {0:item_category,1:item_key,2:target_language,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
     target_language = SFn.GetTargetLanguageDefence(target_language)
 
@@ -823,8 +830,8 @@ doc.description[@language]`,
 // // test 4.1
 // let req =
 // [
-//     2,
 //     "AAAAA_Category_Marketing_In_Social_Web",
+//     2,
 //     "ru"
 //
 // ]
@@ -833,10 +840,11 @@ doc.description[@language]`,
 //3.3
 router.post('/Insert_Item_In_New_Prop',function(req,res)
 {
-    let {0:item_key,1:item_id,2:item_category,3:added_properties,4:removable_properties,...other} = req.body
+    let {0:item_category,1:item_key,2:added_properties,3:removable_properties,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
     added_properties = SFn.Array_To_Lower_Case(added_properties)
     removable_properties=SFn.Array_To_Lower_Case(removable_properties)
+
 
     const properties_collection = SFn.ReplaceWord(item_category,'category','properties')
 
@@ -845,6 +853,7 @@ router.post('/Insert_Item_In_New_Prop',function(req,res)
 
     if(doesItemAndCategoryExist===true && doesPropertiesCollectionExists ===true)
     {
+        const item_id = item_category+'/'+item_key
         let k =db._query(
             {
                 query:`for property in @@properties_collection
@@ -904,9 +913,8 @@ router.post('/Insert_Item_In_New_Prop',function(req,res)
 // Publishing_content_to_multiple_channels, Working_with_influencers
 // const req =
 // [
-//     2,
-//     "aaaaa_category_marketing_in_social_web/2",
 //     "aaaaa_category_marketing_in_social_web",
+//      2
 //     [
 //         "publishing_content_to_multiple_channels",
 //         "reports_and_analytics",
@@ -1037,11 +1045,12 @@ property.name[@target_language]`,
 // //     "en"
 // // ]
 // // Get_All_Properties(req)
-//
-// //2.3
+
+
+//2.3
 router.post('/Assignment_Of_A_Category_To_An_Items',function(req,res)
 {
-    let {0:item_key,1:item_id,2:item_name,3:old_category,4:new_category,...other} = req.body
+    let {0:item_key,1:item_name,2:old_category,3:new_category,...other} = req.body
     old_category = old_category?old_category.toLowerCase():null
     new_category = new_category?new_category.toLowerCase():null
 
@@ -1084,7 +1093,7 @@ router.post('/Assignment_Of_A_Category_To_An_Items',function(req,res)
                 if(doc!=null)
                 {
                     const property_collection = SFn.ReplaceWord(old_category,'category','properties')
-                    item_id = item_id.toLowerCase()
+                    const item_id = old_category+'/'+item_key
                     let m = db._query(
                         {
                             query:`remove '${item_key}' in @@ref_old_coll
@@ -1170,7 +1179,8 @@ update property with {IDs: remove_value(property.IDs,@removable_item_id)} in @@r
 // // Assignment_Of_A_Category_To_An_Items(req)
 //
 //
-// // 2.2
+
+// 2.2
 router.post('/Create_New_Category',function(req,res)
 {
     const {0:category_names,...other} = req.body;
@@ -1349,6 +1359,7 @@ router.post('/Get_Item_Name',function(req,res)
                     }
             }
         ).toArray()
+
         res.send(result)
     }
 }).body(sc.string_number, 'This body will be a string.')
