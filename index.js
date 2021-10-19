@@ -9,6 +9,7 @@ const SFn = require('./SupportFunctions.js')
 const Errors = require('./DB_Support_Files/DB_Errors.js')
 const Warnings = require('./DB_Support_Files/DB_Warnings.js')
 const Logs=require('./DB_Support_Files/LogsManager.js')
+const sc=require('./DB_Support_Files/schemas.js')
 
 module.context.use(router);
 
@@ -24,7 +25,7 @@ function FreeKeys_UpdateOnINSERT(TargetCollection,InsertedKey)
 update free_keys_doc 
 with {keys:remove_value(free_keys_doc.keys,'${InsertedKey}')} 
 into support_collections_info`
-     db._query(query)
+     const k = db._query(query)
 }
 function FreeKeys_UpdateOnREMOVE(PreviousCollection,RemovedKey)
 {
@@ -32,11 +33,11 @@ function FreeKeys_UpdateOnREMOVE(PreviousCollection,RemovedKey)
 update free_keys_doc 
 with {keys:append(free_keys_doc.keys,['${RemovedKey}'],true)} 
 into support_collections_info`
-    db._query(query)
+    const k = db._query(query)
 }
 function INSERT_DocumentInCollection(document,key,category)
 {
-    db._query({
+    const k = db._query({
         query: `
                 INSERT ${document} IN @@ref_col_new
                 `,
@@ -44,7 +45,8 @@ function INSERT_DocumentInCollection(document,key,category)
             {
                 "@ref_col_new": category
             }
-    }).then(()=>{FreeKeys_UpdateOnINSERT(category,key)});
+    })
+    FreeKeys_UpdateOnINSERT(category,key)
 }
 
 function DoesDocumentExistsInTargetCollection(target_collection,target_key, expected_response_is_false=false)
@@ -146,7 +148,7 @@ in @@target_collection return NEW.phone`,
             Logs.WriteLogMessage(`Phone number cant be ''`)
         }
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 
 // let req =
@@ -178,7 +180,7 @@ router.post('/Get_Phone_Item', function(req,res)
         ).toArray()
         res.send(result)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 //
 // // let req =
@@ -215,7 +217,7 @@ in @@target_collection return NEW.organization_name`,
         ).toArray()
         console.log(result)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // // let req =
 // // // [
@@ -246,7 +248,7 @@ router.post('/Get_Organization_Name_Item',function(req,res)
         ).toArray()
         console.log(result)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // // // let req =
 // // // //     [
@@ -282,7 +284,7 @@ in @@target_collection return NEW.email`,
         ).toArray()
         console.log(result)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // // // let req =
 // // // // [
@@ -313,7 +315,7 @@ router.post('/Get_eMail_Item',function(req,res)
         ).toArray()
         console.log(result)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // //
 // // // let req =
@@ -346,7 +348,7 @@ in @@target_collection return NEW.company_name`,
         ).toArray()
         console.log(result)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // // let req =
 // // // [
@@ -377,7 +379,7 @@ router.post('/Get_Company_Name_Item',function(req,res)
         ).toArray()
         console.log(result)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // // let req =
 // // // [
@@ -414,7 +416,7 @@ in @@target_collection return NEW`,
         ).toArray()
         res.send(result)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number_array, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // // let req =
 // // // [
@@ -453,7 +455,7 @@ in @@ref_target_collection return NEW`,
         ).toArray()
         res.send(result)
     }
-}).body(joi.array().items(joi.string().allow(null,''),joi.number(),joi_array), 'This body will be a string.')
+}).body(sc.string_number_array, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // // let req =
 // // // [
@@ -491,7 +493,7 @@ router.post('/Get_Presentations_Item',function(req,res)
             }
         ).toArray()
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // // let req =
 // // // [
@@ -527,7 +529,7 @@ in @@target_collection return NEW`,
         ).toArray()
         console.log(result)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number_array, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // // let req =
 // // // [
@@ -565,7 +567,7 @@ in @@ref_target_collection return NEW`,
         ).toArray()
         console.log(result)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number_array, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // let req =
 // // [
@@ -601,7 +603,7 @@ router.post('Get_Images_Item',function(req,res)
         ).toArray()
         images_array.forEach(e=>console.log(e))
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // let req =
 // // [
@@ -633,7 +635,7 @@ return NEW`,
         ).toArray()
         console.log(new_image)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // let req =
 // [
@@ -668,7 +670,7 @@ return NEW`,
         ).toArray()
         console.log(new_image)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // const req =
 // [
@@ -701,7 +703,7 @@ return main_logo==""||main_logo==null?"Main logo is missing":main_logo`,
         ).toArray()
         console.log(pathMainLogo)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // let req =
 // [
@@ -718,7 +720,7 @@ router.post('/Update_Item_Description_In_One_Language',function(req,res)
     target_language = SFn.GetTargetLanguageDefence(target_language)
     new_description = new_description!=null&&new_description!==""?new_description:`Description on '${target_language}' language is missing`
 
-    db._query(
+    const k = db._query(
         {
             query:`    let doc = document(@@target_category,to_string(@item_key))
     update doc with {description:{[@language]:to_string(@new_description)}}
@@ -733,7 +735,7 @@ in @@target_category return NEW`,
         }
     )
     console.log(`document ${item_category}/${item_key} description in ${target_language} was updated with text ${new_description}`)
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // test
 // let req =
@@ -757,7 +759,7 @@ router.post('/Update_Item_Description_In_Every_Language',function(req,res)
         const doesDocumentExist = DoesDocumentExistsInTargetCollection(item_category, item_key)
         if (doesDocumentExist === true)
         {
-            db._query(
+            const k = db._query(
                 {
                     query: `let doc = document(@@target_category,to_string(@item_key))
 update doc with {description:(merge(doc.description,@tempArr))}
@@ -773,7 +775,7 @@ in @@target_category`,
             console.log("Description updated")
         }
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.object_string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // test 4.2
 // let req =
@@ -816,7 +818,7 @@ doc.description[@language]`,
         ).toArray()
         console.log(description)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // test 4.1
 // let req =
@@ -843,7 +845,7 @@ router.post('/Insert_Item_In_New_Prop',function(req,res)
 
     if(doesItemAndCategoryExist===true && doesPropertiesCollectionExists ===true)
     {
-        db._query(
+        let k =db._query(
             {
                 query:`for property in @@properties_collection
                         filter property._key in @remove_in_properties
@@ -859,7 +861,7 @@ router.post('/Insert_Item_In_New_Prop',function(req,res)
             }
         ) // remove id from every property
         // TODO: maybe this one isfunction for 2.3.2 when item is switching the category
-        db._query(
+        k = db._query(
             {
                 query:`for property in @@properties_collection
                         filter property._key in @add_to_properties
@@ -876,7 +878,7 @@ router.post('/Insert_Item_In_New_Prop',function(req,res)
         ) // insert id in every property
 
         //update item's properties
-        db._query(
+        k = db._query(
             {
                 query:`let doc = document(@@ref_target_collection,to_string(@ref_item_key))
 
@@ -893,7 +895,7 @@ router.post('/Insert_Item_In_New_Prop',function(req,res)
             }
         )
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number_array, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // 3.3 test
 // key - 5
@@ -935,7 +937,7 @@ router.post('/Insert_New_Property_In_Properties_Collection',function(req,res)
         {
             let document_template =SFn.ParseDocument(template_to_parse,insertable_property_names.en,true)
 
-            db._query(
+            let k =db._query(
                 {
                     query:`for i in 1..2
 upsert {_key:to_string(@property_key)}
@@ -981,7 +983,7 @@ update {name:merge(OLD.name,@property_names)} in @@target_properties_collection 
             Logs.WriteLogMessage("Document already exist",true)
         }
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.object_string, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // const req =
 // [
@@ -1026,7 +1028,7 @@ property.name[@target_language]`,
         console.log(prop)
     }
     console.log("Some action to send result into C#")
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // // 3.1 test
 // // const req =
@@ -1083,7 +1085,7 @@ router.post('/Assignment_Of_A_Category_To_An_Items',function(req,res)
                 {
                     const property_collection = SFn.ReplaceWord(old_category,'category','properties')
                     item_id = item_id.toLowerCase()
-                    db._query(
+                    let m = db._query(
                         {
                             query:`remove '${item_key}' in @@ref_old_coll
 
@@ -1097,7 +1099,8 @@ update property with {IDs: remove_value(property.IDs,@removable_item_id)} in @@r
                                     "removable_item_id": item_id
                                 }
                         }
-                    ).then(()=>{FreeKeys_UpdateOnREMOVE(old_category,item_key)})
+                    )
+                    FreeKeys_UpdateOnREMOVE(old_category,item_key)
 
                     doc = SFn.ClearItemProperties(doc)
                     let insertable_document = SFn.ParseDocument(doc,free_key)
@@ -1129,7 +1132,7 @@ update property with {IDs: remove_value(property.IDs,@removable_item_id)} in @@r
             let document_template =SFn.ParseDocument(doc,free_key)
 
             INSERT_DocumentInCollection(document_template,free_key,new_category);
-            db._query({
+            let m = db._query({
                 query: `
                         UPDATE "${free_key}" WITH { name: "${item_name}" } IN @@ref_col_new
                         `,
@@ -1145,7 +1148,7 @@ update property with {IDs: remove_value(property.IDs,@removable_item_id)} in @@r
     {
         Logs.WriteLogMessage(`There is no document in collection:'${new_category}' with key:'${new_category}'`)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // // 2.3 test
 // //AAAAA_Category_Marketing_In_Social_Web
@@ -1171,7 +1174,6 @@ update property with {IDs: remove_value(property.IDs,@removable_item_id)} in @@r
 router.post('/Create_New_Category',function(req,res)
 {
     const {0:category_names,...other} = req.body;
-
     if (Errors.ObjectChecks.ObjectHasProperty(category_names)===true) // Defense if there is no english name
     {
         const {0:prefixQueryResult}=db._query(`LET tempCol = collections()[*FILTER LIKE(CURRENT.name,"_____\\\\_%") RETURN CURRENT.name]
@@ -1205,10 +1207,10 @@ RETURN count(count_cols) == 2 ?
             let document_template =SFn.ParseDocument(template_to_parse,new_category_collection_name,true)
 
 
-            db.createCollection(new_category_collection_name)
-            db.createCollection(new_property_collection_name)
+            db._createDocumentCollection(new_category_collection_name)
+            db._createDocumentCollection(new_property_collection_name)
 
-            db._query(
+            const m = db._query(
                 {
                     query:`for i in 1..2
 upsert {_key:to_string(@property_key)}
@@ -1219,17 +1221,13 @@ update {name:merge(OLD.name,@property_names)} in support_collections_info return
                             "property_key": new_category_collection_name,
                             "property_names": category_names
                         }
-                }
-            ).then(()=>
-                {
-                    ViewUpdater(new_category_collection_name)
-                }
-            )
+                }).toArray()
+                ViewUpdater(new_category_collection_name)
 
         } else {console.log(currentPrefix)}
     }
 
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.object, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // const req =
 // [
@@ -1278,7 +1276,7 @@ concat("Missing category name '",c.name['en'], "' on language: '",@target_langua
     {
         console.log(cats.indexOf(cat),cat)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // 2.1 test
 // const req =
@@ -1320,7 +1318,7 @@ in @@target_collection return NEW.name`,
             console.log("Phone number cant be ''")
         }
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // let req =
 // [
@@ -1352,7 +1350,7 @@ router.post('/Get_Item_Name',function(req,res)
         ).toArray()
         console.log(result)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // let req =
 // //     [
@@ -1383,9 +1381,9 @@ return MERGE(target_item, { properties: DOCUMENT(@@target_properties_collection,
                     }
             }
         ).toArray()
-        console.log(result)
+        res.send(result)
     }
-}).body(joi_array, 'This body will be a string.')
+}).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // //qwe
 // // let req =
