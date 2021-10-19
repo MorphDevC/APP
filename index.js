@@ -1315,7 +1315,8 @@ in @@target_collection return NEW.name`,
         }
         else
         {
-            console.log("Phone number cant be ''")
+            Logs.WriteLogMessage(`Phone number cant be '' or null`)
+            res.send(`Phone number cant be '' or null`)
         }
     }
 }).body(sc.string_number, 'This body will be a string.')
@@ -1348,7 +1349,7 @@ router.post('/Get_Item_Name',function(req,res)
                     }
             }
         ).toArray()
-        console.log(result)
+        res.send(result)
     }
 }).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
@@ -1381,15 +1382,16 @@ return MERGE(target_item, { properties: DOCUMENT(@@target_properties_collection,
                     }
             }
         ).toArray()
+
         res.send(result)
     }
 }).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // //qwe
-// // let req =
-// //     [
-// //         "aaaaa_category_marketing_in_social_web",
-// //         2
-// //     ]
+// let req =
+//     [
+//         "aaaaa_category_marketing_in_social_web",
+//         2
+//     ]
 // // Get_Item_File(req)
 //
