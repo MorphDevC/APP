@@ -21,14 +21,8 @@ module.exports=
                 default:
                     break;
             }
-            try
-            {
-                fs.append(logs, `${message}`);
-            }
-            catch (e)
-            {
-                console.log(e.message)
-            }
+
+            fs.append(logs, `${message}`);
 
         }
     }

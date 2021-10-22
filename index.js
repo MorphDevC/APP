@@ -1038,7 +1038,7 @@ property.name[@target_language]`,
     console.log("Some action to send result into C#")
 }).body(sc.string, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
-// // // 3.1 test
+// // // 3.1 test f17
 // // const req =
 // // [
 // //     "AAAAA_Category_Marketing_In_Social_Web",
@@ -1113,7 +1113,6 @@ update property with {IDs: remove_value(property.IDs,@removable_item_id)} in @@r
 
                     doc = SFn.ClearItemProperties(doc)
                     let insertable_document = SFn.ParseDocument(doc,free_key)
-                    console.log(insertable_document)
                     INSERT_DocumentInCollection(insertable_document,free_key,new_category)
 
                     console.log("succeed")
@@ -1234,7 +1233,7 @@ update {name:merge(OLD.name,@property_names)} in support_collections_info return
                 }).toArray()
                 ViewUpdater(new_category_collection_name)
 
-        } else {console.log(currentPrefix)}
+        } else {Logs.WriteLogMessage(currentPrefix)}
     }
 
 }).body(sc.object, 'This body will be a string.')
