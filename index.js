@@ -1050,7 +1050,8 @@ property.name[@target_language]`,
 //2.3
 router.post('/Assignment_Of_A_Category_To_An_Items',function(req,res)
 {
-    let {0:item_key,1:item_name,2:old_category,3:new_category,...other} = req.body
+    //let {0:item_key,1:item_name,2:old_category,3:new_category,...other} = req.body //old version
+    let {0:new_category,1:old_category,2:item_key,3:item_name,...other} = req.body
     old_category = old_category?old_category.toLowerCase():null
     new_category = new_category?new_category.toLowerCase():null
 
@@ -1159,25 +1160,16 @@ update property with {IDs: remove_value(property.IDs,@removable_item_id)} in @@r
 }).body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // // 2.3 test
-// //AAAAA_Category_Marketing_In_Social_Web
-// //AAAAB_Category_Push_Notifications
-// //AAAAC_Category_Web_Analytics
-// //const req= [11,"AAAAA_Category_Marketing_In_Social_Web/11","Some Item Name","AAAAB_Category_Push_Notifications","AAAAA_Category_Marketing_In_Social_Web"]
-// //const req= [-1,null,"Item_4",null,"AAAAC_Category_Web_Analytics"]
-// //const req= [-1,"test_1/3","HELLO","test_1","test_3"]
-// // const req= [-1,"222","Item_4",null,"AAAAC_Category_Web_Analytics"]
-// // const req=
-// // [
-// //     -1,
-// //     null,
-// //     "Item 4",
-// //     null,
-// //     "aaaaa_category_marketing_in_social_web"
-// // ]
+// const req=
+// [
+//     "aaaaa_category_marketing_in_social_web",
+//     null,
+//     -1,
+//     "Item_name"
+// ]
 // // //
 // // Assignment_Of_A_Category_To_An_Items(req)
-//
-//
+
 
 // 2.2
 router.post('/Create_New_Category',function(req,res)
@@ -1272,7 +1264,7 @@ for c in support_collections_info
 FILTER LIKE(c._key,findSchema)
 sort c ASC
 RETURN c.name[@target_language]==""?
-concat("Missing category name '",c.name['en'], "' on language: '",@target_language,"'"):c.name[@target_language]`,
+concat("Missing category name '",c.name['en'], "' on language: '",@target_language,"'"):[c.name[@target_language],c._key]`,
             bindVars:
                 {
                     "target_language":target_language
@@ -1280,11 +1272,14 @@ concat("Missing category name '",c.name['en'], "' on language: '",@target_langua
         }
     ).toArray()
 
+    //res.send(JSON.stringify(cats[0]))
+    res.send(cats)
     // Rewrite output for foxx
-    for (let cat of cats)
-    {
-        console.log(cats.indexOf(cat),cat)
-    }
+    // for (let cat of cats)
+    // {
+    //     req.send()
+    //     console.log(cats.indexOf(cat),cat)
+    // }
 }).body(sc.string, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 // // 2.1 test
