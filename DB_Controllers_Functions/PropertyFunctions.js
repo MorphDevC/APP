@@ -7,7 +7,7 @@ const Logs = require("./../DB_Support_Files/LogsManager.js");
 
 
 //3.3
-function Insert_Item_In_New_Prop(req,res)
+function Returnable_Insert_Item_In_New_Prop(req,res)
 {
     let {0:item_category,1:item_key,2:added_properties,3:removable_properties,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
@@ -72,11 +72,13 @@ function Insert_Item_In_New_Prop(req,res)
                     }
             }
         )
+
+        return true;
     }
 }
 
 // // 3.2
-function Insert_New_Property_In_Properties_Collection(req,res)
+function Returnable_Insert_New_Property_In_Properties_Collection(req,res)
 {
     let {0:target_category,1:insertable_property_names,...other}= req
     target_category=target_category.toLowerCase()
@@ -108,6 +110,8 @@ update {name:merge(OLD.name,@property_names)} in @@target_properties_collection 
                         }
                 }
             )
+
+            return k;
         }
         else
         {
@@ -116,9 +120,8 @@ update {name:merge(OLD.name,@property_names)} in @@target_properties_collection 
     }
 }
 
-
 ////3.1
-function Get_All_Properties(req,res)
+function Returnable_Get_All_Properties(req,res)
 {
     //3.1
     // #reference to FUNC 2.2
@@ -142,7 +145,23 @@ property.name[@target_language]`,
         }
     ).toArray()
 
-    res.send(props)
+    return props
+}
+
+function Insert_Item_In_New_Prop(req,res)
+{
+    let someVar = Returnable_Insert_Item_In_New_Prop(req,res);
+    //res.send(someVar)
+}
+function Insert_New_Property_In_Properties_Collection(req,res)
+{
+    let someVar = Returnable_Insert_New_Property_In_Properties_Collection(req,res);
+    //res.send(someVar)
+}
+function Get_All_Properties(req,res)
+{
+    let someVar = Returnable_Get_All_Properties(req,res);
+    //res.send(someVar)
 }
 
 module.exports.Insert_Item_In_New_Prop = Insert_Item_In_New_Prop;

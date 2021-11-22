@@ -3,7 +3,7 @@ const db=require('@arangodb').db;
 const DBSFunctions = require('./DB_SupportFunctions');
 
 // // // 7.3
-function Remove_Presentation_In_Item(req,res)
+function Returnable_Remove_Presentation_In_Item(req,res)
 {
     let {0:item_category,1:item_key,2:item_removable_presentations,...other} = req.body
 
@@ -28,12 +28,12 @@ in @@target_collection return NEW`,
                     }
             }
         ).toArray()
-        res.send(result)
+        return result
     }
 }
 
 // // // 7.2
-function Insert_New_Presentation_In_Item(req,res)
+function Returnable_Insert_New_Presentation_In_Item(req,res)
 {
     let {0:item_category,1:item_key,2:item_insertable_presentations,...other} = req.body
 
@@ -55,13 +55,13 @@ in @@ref_target_collection return NEW`,
                     }
             }
         ).toArray()
-        res.send(result)
+        return result
     }
 }
 
 
 // // // 7.1
-function Get_Presentations_Item(req,res)
+function Returnable_Get_Presentations_Item(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -79,7 +79,24 @@ function Get_Presentations_Item(req,res)
                     }
             }
         ).toArray()
+        return presentations_array;
     }
+}
+
+function Remove_Presentation_In_Item(req,res)
+{
+    let someVar = Returnable_Remove_Presentation_In_Item(req,res);
+    //res.send(someVar);
+}
+function Insert_New_Presentation_In_Item(req,res)
+{
+    let someVar = Returnable_Insert_New_Presentation_In_Item(req,res);
+    //res.send(someVar);
+}
+function Get_Presentations_Item(req,res)
+{
+    let someVar = Returnable_Get_Presentations_Item(req,res);
+    res.send(someVar);
 }
 
 module.exports.Remove_Presentation_In_Item=Remove_Presentation_In_Item;

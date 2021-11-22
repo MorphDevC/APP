@@ -5,7 +5,7 @@ const SFn = require("./../SupportFunctions.js");
 const Errors = require("./../DB_Support_Files/DB_Errors.js");
 
 // 4.3
-function Update_Item_Description_In_One_Language(req,res)
+function Returnable_Update_Item_Description_In_One_Language(req,res)
 {
     let {0:item_category,1:item_key,2:target_language,3:new_description,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
@@ -26,11 +26,12 @@ in @@target_category return NEW`,
                 }
         }
     )
-    console.log(`document ${item_category}/${item_key} description in ${target_language} was updated with text ${new_description}`)
+    return `document ${item_category}/${item_key} description in ${target_language} was updated with text ${new_description}`
 }
 
+
 // 4.2
-function Update_Item_Description_In_Every_Language(req,res)
+function Returnable_Update_Item_Description_In_Every_Language(req,res)
 {
     let {0:item_category,1:item_key,2:description,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
@@ -53,13 +54,13 @@ in @@target_category`,
                         }
                 }
             )
-            console.log("Description updated")
+           return "Description updated"
         }
     }
 }
 
 // 4.1
-function Get_Item_Description(req,res)
+function Returnable_Get_Item_Description(req,res)
 {
     let {0:item_category,1:item_key,2:target_language,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
@@ -82,8 +83,25 @@ doc.description[@language]`,
                     }
             }
         ).toArray()
-        console.log(description)
+        return description
     }
+}
+
+
+function Update_Item_Description_In_One_Language(req,res)
+{
+    let someVar = Returnable_Update_Item_Description_In_One_Language(req,res);
+    // res.send(someVar)
+}
+function Update_Item_Description_In_Every_Language(req,res)
+{
+    let someVar = Returnable_Update_Item_Description_In_Every_Language(req,res);
+    // res.send(someVar)
+}
+function Get_Item_Description(req,res)
+{
+    let someVar = Returnable_Get_Item_Description(req,res);
+    // res.send(someVar)
 }
 
 module.exports.Update_Item_Description_In_One_Language = Update_Item_Description_In_One_Language;

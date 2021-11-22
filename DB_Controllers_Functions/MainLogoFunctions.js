@@ -3,7 +3,7 @@ const db=require('@arangodb').db;
 const DBSFunctions = require('./DB_SupportFunctions');
 const default_image = "S:\\4_Images\\DefaultImage.jpg"
 // // 5.3
-function Remove_Main_Logo_Item(req,res)
+function Returnable_Remove_Main_Logo_Item(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -23,12 +23,12 @@ return NEW`,
                     }
             }
         ).toArray()
-        console.log(new_image)
+        return new_image
     }
 }
 
 // 5.2
-function Insert_Update_Main_Logo_Item(req,res)
+function Returnable_Insert_Update_Main_Logo_Item(req,res)
 {
 
 
@@ -51,12 +51,12 @@ return NEW`,
                     }
             }
         ).toArray()
-        console.log(new_image)
+        return new_image
     }
 }
 
 // 5.1
-function Get_Main_Logo_Item(req,res)
+function Returnable_Get_Main_Logo_Item(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body //aaaab_category_push_notifications
 
@@ -75,8 +75,24 @@ return main_logo==""||main_logo==null?"Main logo is missing":main_logo`,
                     }
             }
         ).toArray()
-        res.send(pathMainLogo)
+        return pathMainLogo
     }
+}
+
+function Remove_Main_Logo_Item(req,res)
+{
+    let someVar = Returnable_Remove_Main_Logo_Item(req,res);
+    //res.send(someVar)
+}
+function Insert_Update_Main_Logo_Item(req,res)
+{
+    let someVar = Returnable_Insert_Update_Main_Logo_Item(req,res);
+    //res.send(someVar)
+}
+function Get_Main_Logo_Item(req,res)
+{
+    let someVar = Returnable_Get_Main_Logo_Item(req,res);
+    //res.send(someVar)
 }
 
 module.exports.Remove_Main_Logo_Item=Remove_Main_Logo_Item;

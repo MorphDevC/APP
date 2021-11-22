@@ -45,134 +45,317 @@ router.post( '/Insert_Update_Phone_Item',DBF_phone.Insert_Update_Phone_Item)
 // // // 11.1
 router.post('/Get_Phone_Item', DBF_phone.Get_Phone_Item)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+        2
+    ]`);
 
 // ////10.2
 router.post('/Insert_Update_Organization_Name_Item' ,DBF_organizationName.Insert_Update_Organization_Name_Item)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+    2,
+        "OWLM organization name"
+    ]`);
 
 
 // // // // 10.1
 router.post('/Get_Organization_Name_Item',DBF_organizationName.Get_Organization_Name_Item)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+        2
+    ]`);
 
 // // // //9.2
 router.post('/Insert_Update_eMail_Item',DBF_eMail.Insert_Update_eMail_Item)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+    2,
+        "OWLM_eMail@gmail.com"
+    ]`);
 
 
 // // // 9.1
 router.post('/Get_eMail_Item',DBF_eMail.Get_eMail_Item)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+        2
+    ]`);
 
 // // // 8.2
 router.post('/Insert_Update_Company_Name_Item',DBF_companyName.Insert_Update_Company_Name_Item)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+    2,
+        "OWLM"
+    ]`);
 
 // // // 8.1
 router.post('/Get_Company_Name_Item',DBF_companyName.Get_Company_Name_Item)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+        2
+    ]`);
 
 // // // 7.3
 router.post('Remove_Presentation_In_Item',DBF_presentations.Remove_Presentation_In_Item)
     .body(sc.string_number_array, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+    2,
+    [
+        "S:\\2_University\\1_Education\\3_course\\6_sem\\Одинцова\\UnlockЛК_Предметно-ориентированные_ИС_Тема-2.pdf",
+        "S:\\2_University\\1_Education\\3_course\\6_sem\\Одинцова\\UnlockЛК_Предметно-ориентированные_ИС_Тема-5.pdf",
+        "S:\\2_University\\1_Education\\3_course\\6_sem\\Одинцова\\UnlockЛК_Предметно-ориентированные_ИС_Тема-1 (1).pdf"
+        ]
+    ]`);
 
 // // // 7.2
 router.post('/Insert_New_Presentation_In_Item',DBF_presentations.Insert_New_Presentation_In_Item)
     .body(sc.string_number_array, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+    2,
+    [
+        "S:\\2_University\\1_Education\\3_course\\6_sem\\Одинцова\\UnlockЛК_Предметно-ориентированные_ИС_Тема-1 (1).pdf",
+        "S:\\2_University\\1_Education\\3_course\\6_sem\\Одинцова\\UnlockЛК_Предметно-ориентированные_ИС_Тема-2.pdf",
+        "S:\\2_University\\1_Education\\3_course\\6_sem\\Одинцова\\UnlockЛК_Предметно-ориентированные_ИС_Тема-3 — копия.pdf",
+        "S:\\2_University\\1_Education\\3_course\\6_sem\\Одинцова\\UnlockЛК_Предметно-ориентированные_ИС_Тема-4.pdf",
+        "S:\\2_University\\1_Education\\3_course\\6_sem\\Одинцова\\UnlockЛК_Предметно-ориентированные_ИС_Тема-5.pdf"
+        ]
+    ]`);
 
 
 // // // 7.1
 router.post('/Get_Presentations_Item',DBF_presentations.Get_Presentations_Item)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+        2
+    ]`);
 
 // // // 6.3
 router.post('/Remove_Images_In_Item',DBF_images.Remove_Images_In_Item)
     .body(sc.string_number_array, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+    2,
+    [
+        "S:\\4_Images\\Smoke\\2.jpg",
+        "S:\\4_Images\\Smoke\\3.jpg"
+        ]
+    ]`);
 
 // // // 6.2
 router.post('Insert_Images_In_Item',DBF_images.Insert_Images_In_Item)
     .body(sc.string_number_array, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+    2,
+    [
+        "S:\\4_Images\\Smoke\\2.jpg",
+        "S:\\4_Images\\Smoke\\3.jpg",
+        "S:\\4_Images\\Smoke\\1.jpg",
+        ]
+    ]`);
 
 // // 6.1
 router.post('Get_Images_Item',DBF_images.Get_Images_Item)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+        2
+    ]`);
 
 // // 5.3
 router.post('/Remove_Main_Logo_Item',DBF_mainLogo.Remove_Main_Logo_Item)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+        2
+    ]`);
 
 // 5.2
 router.post('/Insert_Update_Main_Logo_Item',DBF_mainLogo.Insert_Update_Main_Logo_Item)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+    2,
+    "S:\\4_Images\\ef6c2cf4811eb8ef6b79f6b5077f4.jpeg"//S:\\4_Images\\uln_vGXMNU8.jpg   
+
+]`);
 
 // 5.1
 router.post('/Get_Main_Logo_Item',DBF_mainLogo.Get_Main_Logo_Item)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+        2
+    ]`);
 
 
 // 4.3
 router.post('/Update_Item_Description_In_One_Language',DBF_description.Update_Item_Description_In_One_Language)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "AAAAA_Category_Marketing_In_Social_Web",
+    2,
+    "ru",
+    "New description"   
+
+]`);
 
 // 4.2
 router.post('/Update_Item_Description_In_Every_Language',DBF_description.Update_Item_Description_In_Every_Language)
     .body(sc.object_string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "AAAAA_Category_Marketing_In_Social_Web",
+    2,
+    {
+        "de":"Some description on German from JS",
+        "en":"Some description on English from JS",
+        "es":"Some description on Spanish from JS",
+        "fr":"Some description on French from JS",
+        "ru":"Some description on Russian from JS"
+        }
+    ]`);
 
 // 4.1
 router.post('/Get_Item_Description',DBF_description.Get_Item_Description)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "AAAAA_Category_Marketing_In_Social_Web",
+    2,
+    "ru"    
+
+]`);
 
 //3.3
 router.post('/Insert_Item_In_New_Prop',DBF_property.Insert_Item_In_New_Prop)
     .body(sc.string_number_array, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+     2
+    [
+        "publishing_content_to_multiple_channels",
+        "reports_and_analytics",
+        "scheduling_publications",
+        "supports_facebook",
+        "supports_google+",
+    ],
+        [""]
+    ]`);
 
 // // 3.2
 router.post('/Insert_New_Property_In_Properties_Collection',DBF_property.Insert_New_Property_In_Properties_Collection)
     .body(sc.object_string, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "AAAAA_Category_Marketing_In_Social_Web",
+    {
+        "de":"Property name on German from JS",
+        "en":"Property name on English from JS",
+        "es":"Property name on Spanish from JS",
+        "fr":"Property name on French from JS",
+        "ru":"Property name on Russian from JS"
+        }
+    ]`);
 
 
 ////3.1
 router.post('/Get_All_Properties',DBF_property.Get_All_Properties)
     .body(sc.string, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "AAAAA_Category_Marketing_In_Social_Web",
+        "en"
+    ]`);
 
 //2.3
 router.post('/Assignment_Of_A_Category_To_An_Items',DBF_category.Assignment_Of_A_Category_To_An_Items)
     .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+    null,
+    -1,
+        "Item_name"
+    ]`);
 
 
 // 2.2
 router.post('/Create_New_Category',DBF_category.Create_New_Category)
     .body(sc.object, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    {
+        "de":"Category name on German from JS",
+        "en":"Category name on English from JS",
+        "es":"Category name on Spanish from JS",
+        "fr":"Category name on French from JS",
+        "ru":"Category name on Russian from JS"
+        }
+    ]`);
 
 
 //2.1
 router.post('/Get_All_Categories',DBF_category.Get_All_Categories)
     .body(sc.string, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.');
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+        "dg"
+    ]`);
 
 
 //1.2

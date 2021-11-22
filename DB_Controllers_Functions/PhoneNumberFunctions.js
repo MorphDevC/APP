@@ -5,7 +5,7 @@ const SFn = require("./../SupportFunctions.js");
 const Logs = require("./../DB_Support_Files/LogsManager.js");
 
 // // // 11.2
-function Insert_Update_Phone_Item(req,res)
+function Returnable_Insert_Update_Phone_Item(req,res)
 {
     let {0:item_category,1:item_key,2:new_phone_item,...other} = req.body
 
@@ -31,7 +31,7 @@ in @@target_collection return NEW.phone`,
                         }
                 }
             ).toArray()
-            res.send(result)
+            return result
         }
         else
         {
@@ -41,7 +41,7 @@ in @@target_collection return NEW.phone`,
 }
 
 // // // 11.1
-function Get_Phone_Item(req,res)
+function Returnable_Get_Phone_Item(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -59,10 +59,20 @@ function Get_Phone_Item(req,res)
                     }
             }
         ).toArray()
-        res.send(result)
+        return result
     }
 }
 
+function Insert_Update_Phone_Item(req,res)
+{
+    let someVar = Returnable_Insert_Update_Phone_Item(req,res);
+    //res.send(someVar)
+}
+function Get_Phone_Item(req,res)
+{
+    let someVar = Returnable_Get_Phone_Item(req,res);
+    res.send(someVar)
+}
 
 module.exports.Insert_Update_Phone_Item=Insert_Update_Phone_Item;
 module.exports.Get_Phone_Item=Get_Phone_Item;

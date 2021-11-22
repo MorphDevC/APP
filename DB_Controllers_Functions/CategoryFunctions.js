@@ -6,7 +6,7 @@ const Logs = require("./../DB_Support_Files/LogsManager.js");
 const Errors = require("./../DB_Support_Files/DB_Errors.js");
 
 //2.3
-function Assignment_Of_A_Category_To_An_Items(req,res)
+function Returnable_Assignment_Of_A_Category_To_An_Items(req,res)
 {
     //let {0:item_key,1:item_name,2:old_category,3:new_category,...other} = req.body //old version
     let {0:new_category,1:old_category,2:item_key,3:item_name,...other} = req.body
@@ -94,6 +94,7 @@ update property with {IDs: remove_value(property.IDs,@removable_item_id)} in @@r
                     }
             });
 
+            return "return smth in Assignment_Of_A_Category_To_An_Items"
         }
     }
     else
@@ -101,9 +102,14 @@ update property with {IDs: remove_value(property.IDs,@removable_item_id)} in @@r
         Logs.WriteLogMessage(`There is no document in collection:'${new_category}' with key:'${new_category}'`)
     }
 }
+function Assignment_Of_A_Category_To_An_Items(req,res)
+{
+    let someVar = Returnable_Assignment_Of_A_Category_To_An_Items(req,res)
+    //send if needable
+}
 
 // 2.2
-function Create_New_Category(req,res)
+function Returnable_Create_New_Category(req,res)
 {
     const {0:category_names,...other} = req.body;
     if (Errors.ObjectChecks.ObjectHasProperty(category_names)===true) // Defense if there is no english name
@@ -156,16 +162,22 @@ update {name:merge(OLD.name,@property_names)} in support_collections_info return
                 }).toArray()
             DBSFunctions.ViewUpdater(new_category_collection_name)
 
+            return true;
         } else {Logs.WriteLogMessage(currentPrefix)}
     }
 
+}
+function Create_New_Category(req,res)
+{
+    let someVar = Returnable_Create_New_Category(req,res);
+    // Send if needable
 }
 
 //ViewUpdater("aaaad_category_category_name_on_english_from_js")
 
 
 //2.1
-function Get_All_Categories(req,res)
+function Returnable_Get_All_Categories(req,res)
 {
     // 2.1
 
@@ -190,7 +202,13 @@ concat("Missing category name '",c.name['en'], "' on language: '",@target_langua
                 }
         }
     ).toArray()
-    res.send(cats)
+    return cats
+
+}
+function Get_All_Categories(req,res)
+{
+    let categories = Returnable_Get_All_Categories(req,res);
+    res.send(categories)
 }
 
 module.exports.Assignment_Of_A_Category_To_An_Items = Assignment_Of_A_Category_To_An_Items;

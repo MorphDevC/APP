@@ -4,7 +4,7 @@ const DBSFunctions = require('./DB_SupportFunctions');
 const SFn = require("./../SupportFunctions.js");
 
 // // // //9.2
-function Insert_Update_eMail_Item(req,res)
+function Returnable_Insert_Update_eMail_Item(req,res)
 {
     let {0:item_category,1:item_key,2:new_eMail_item,...other} = req.body
 
@@ -28,13 +28,12 @@ in @@target_collection return NEW.email`,
                     }
             }
         ).toArray()
-        console.log(result)
+        return result
     }
 }
 
-
 // // // 9.1
-function Get_eMail_Item(req,res)
+function Returnable_Get_eMail_Item(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -52,9 +51,23 @@ function Get_eMail_Item(req,res)
                     }
             }
         ).toArray()
-        console.log(result)
+        return result
     }
 }
+
+
+function Insert_Update_eMail_Item(req,res)
+{
+    let someVar =   Returnable_Insert_Update_eMail_Item(req,res);
+    // res.send(someVar)
+}
+
+function Get_eMail_Item(req,res)
+{
+    let someVar =    Returnable_Get_eMail_Item(req,res);
+    // res.send(someVar)
+}
+
 
 module.exports.Insert_Update_eMail_Item=Insert_Update_eMail_Item;
 module.exports.Get_eMail_Item=Get_eMail_Item;

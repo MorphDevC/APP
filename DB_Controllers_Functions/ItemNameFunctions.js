@@ -4,7 +4,7 @@ const DBSFunctions = require('./DB_SupportFunctions');
 const Logs = require("./../DB_Support_Files/LogsManager.js");
 
 //1.2
-function Update_Item_Name(req,res)
+function Returnable_Update_Item_Name(req,res)
 {
     let {0:item_category,1:item_key,2:new_item_name,...other} = req.body
 
@@ -29,18 +29,18 @@ in @@target_collection return NEW.name`,
                         }
                 }
             ).toArray()
-            console.log(result)
+            return result
         }
         else
         {
             Logs.WriteLogMessage(`Phone number cant be '' or null`)
-            res.send(`Phone number cant be '' or null`)
+            return `Phone number cant be '' or null`
         }
     }
 }
 
 // 1.1
-function Get_Item_Name(req,res)
+function Returnable_Get_Item_Name(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -59,8 +59,19 @@ function Get_Item_Name(req,res)
             }
         ).toArray()
 
-        res.send(result)
+        return result
     }
+}
+
+function Update_Item_Name(req,res)
+{
+    let someVar = Returnable_Update_Item_Name(req,res);
+    //res.send(someVar)
+}
+function Get_Item_Name(req,res)
+{
+    let someVar = Returnable_Get_Item_Name(req,res);
+    res.send(someVar)
 }
 
 module.exports.Get_Item_Name = Get_Item_Name;
