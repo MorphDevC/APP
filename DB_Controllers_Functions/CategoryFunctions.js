@@ -5,6 +5,35 @@ const SFn = require("./../SupportFunctions.js");
 const Logs = require("./../DB_Support_Files/LogsManager.js");
 const Errors = require("./../DB_Support_Files/DB_Errors.js");
 
+//2.4
+function Returnable_Get_Items_Amount_Of_Category(req,res)
+{
+    //RETURN LENGTH(@@category)
+    let {0:category,...other} = req.body
+
+    category = category?category.toLowerCase():null
+    const doesTargetCategoryExist = DBSFunctions.DoesCollectionExists(category)
+    if(doesTargetCategoryExist===true)
+    {
+        const {0:amount} = db._query(
+            {
+                query:`RETURN LENGTH(@@category)`,
+                bindVars:
+                    {
+                        "@category":category
+                    }
+            }
+        ).toArray()
+        return amount
+    }
+}
+
+function Get_Items_Amount_Of_Category(req,res)
+{
+    let amountOfCategory = Returnable_Get_Items_Amount_Of_Category(req,res);
+    res.send(amountOfCategory);
+}
+
 //2.3
 function Returnable_Assignment_Of_A_Category_To_An_Items(req,res)
 {
@@ -214,3 +243,4 @@ function Get_All_Categories(req,res)
 module.exports.Assignment_Of_A_Category_To_An_Items = Assignment_Of_A_Category_To_An_Items;
 module.exports.Create_New_Category = Create_New_Category;
 module.exports.Get_All_Categories = Get_All_Categories;
+module.exports.Get_Items_Amount_Of_Category = Get_Items_Amount_Of_Category;

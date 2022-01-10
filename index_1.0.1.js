@@ -8,7 +8,7 @@ const dd = require('dedent');
 
 const sc=require('./DB_Support_Files/schemas.js')
 
-const DBF_itemName = require('./DB_Controllers_Functions/ItemNameFunctions.js');
+const DBF_item = require('./DB_Controllers_Functions/ItemFunctions.js');
 const DBF_category = require('./DB_Controllers_Functions/CategoryFunctions');
 const DBF_property = require('./DB_Controllers_Functions/PropertyFunctions.js');
 const DBF_description = require('./DB_Controllers_Functions/DescriptionFunctions.js');
@@ -319,6 +319,15 @@ router.post('/Get_All_Properties',DBF_property.Get_All_Properties)
         "en"
     ]`);
 
+//2.4
+router.post('/Get_Items_Amount_Of_Category',DBF_category.Get_Items_Amount_Of_Category)
+    .body(sc.string_number, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web"
+    ]`);
+
 //2.3
 router.post('/Assignment_Of_A_Category_To_An_Items',DBF_category.Assignment_Of_A_Category_To_An_Items)
     .body(sc.string_number, 'This body will be a string.')
@@ -357,14 +366,24 @@ router.post('/Get_All_Categories',DBF_category.Get_All_Categories)
         "dg"
     ]`);
 
+//1.3
 
+router.post('/Get_Item_Info',DBF_item.Get_Item_Info)
+    .body(sc.string_number, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+        "aaaaa_category_marketing_in_social_web",
+        "ru",
+        4
+    ]`);
 //1.2
-router.post('/Update_Item_Name',DBF_itemName.Update_Item_Name)
+router.post('/Update_Item_Name',DBF_item.Update_Item_Name)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 
 // 1.1
-router.post('/Get_Item_Name',DBF_itemName.Get_Item_Name)
+router.post('/Get_Item_Name',DBF_item.Get_Item_Name)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 
