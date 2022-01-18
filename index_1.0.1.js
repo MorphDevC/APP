@@ -320,7 +320,7 @@ router.post('/get_all_properties',DBF_property.Get_All_Properties)
     ]`);
 
 // 2.5
-router.post('/Get_All_Items_In_Category',DBF_category.Get_All_Items_In_Category)
+router.post('/get_all_items_in_category',DBF_category.Get_All_Items_In_Category)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
