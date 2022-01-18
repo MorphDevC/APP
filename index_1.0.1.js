@@ -31,7 +31,7 @@ module.context.use(router);
 
 
 // // // 11.2
-router.post( '/Insert_Update_Phone_Item',DBF_phone.Insert_Update_Phone_Item)
+router.post( '/insert_update_phone_item',DBF_phone.Insert_Update_Phone_Item)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test
@@ -43,7 +43,7 @@ router.post( '/Insert_Update_Phone_Item',DBF_phone.Insert_Update_Phone_Item)
     );
 
 // // // 11.1
-router.post('/Get_Phone_Item', DBF_phone.Get_Phone_Item)
+router.post('/get_phone_item', DBF_phone.Get_Phone_Item)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -53,7 +53,7 @@ router.post('/Get_Phone_Item', DBF_phone.Get_Phone_Item)
     ]`);
 
 // ////10.2
-router.post('/Insert_Update_Organization_Name_Item' ,DBF_organizationName.Insert_Update_Organization_Name_Item)
+router.post('/insert_update_organization_name_item' ,DBF_organizationName.Insert_Update_Organization_Name_Item)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -65,7 +65,7 @@ router.post('/Insert_Update_Organization_Name_Item' ,DBF_organizationName.Insert
 
 
 // // // // 10.1
-router.post('/Get_Organization_Name_Item',DBF_organizationName.Get_Organization_Name_Item)
+router.post('/get_organization_name_item',DBF_organizationName.Get_Organization_Name_Item)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -75,7 +75,7 @@ router.post('/Get_Organization_Name_Item',DBF_organizationName.Get_Organization_
     ]`);
 
 // // // //9.2
-router.post('/Insert_Update_eMail_Item',DBF_eMail.Insert_Update_eMail_Item)
+router.post('/insert_update_email_item',DBF_eMail.Insert_Update_eMail_Item)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -87,7 +87,7 @@ router.post('/Insert_Update_eMail_Item',DBF_eMail.Insert_Update_eMail_Item)
 
 
 // // // 9.1
-router.post('/Get_eMail_Item',DBF_eMail.Get_eMail_Item)
+router.post('/get_email_item',DBF_eMail.Get_eMail_Item)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -97,7 +97,7 @@ router.post('/Get_eMail_Item',DBF_eMail.Get_eMail_Item)
     ]`);
 
 // // // 8.2
-router.post('/Insert_Update_Company_Name_Item',DBF_companyName.Insert_Update_Company_Name_Item)
+router.post('/insert_update_company_name_item',DBF_companyName.Insert_Update_Company_Name_Item)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -108,7 +108,7 @@ router.post('/Insert_Update_Company_Name_Item',DBF_companyName.Insert_Update_Com
     ]`);
 
 // // // 8.1
-router.post('/Get_Company_Name_Item',DBF_companyName.Get_Company_Name_Item)
+router.post('/get_company_name_item',DBF_companyName.Get_Company_Name_Item)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -118,7 +118,7 @@ router.post('/Get_Company_Name_Item',DBF_companyName.Get_Company_Name_Item)
     ]`);
 
 // // // 7.3
-router.post('Remove_Presentation_In_Item',DBF_presentations.Remove_Presentation_In_Item)
+router.post('remove_presentation_in_item',DBF_presentations.Remove_Presentation_In_Item)
     .body(sc.string_number_array, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -133,7 +133,7 @@ router.post('Remove_Presentation_In_Item',DBF_presentations.Remove_Presentation_
     ]`);
 
 // // // 7.2
-router.post('/Insert_New_Presentation_In_Item',DBF_presentations.Insert_New_Presentation_In_Item)
+router.post('/insert_new_presentation_in_item',DBF_presentations.Insert_New_Presentation_In_Item)
     .body(sc.string_number_array, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -151,7 +151,7 @@ router.post('/Insert_New_Presentation_In_Item',DBF_presentations.Insert_New_Pres
 
 
 // // // 7.1
-router.post('/Get_Presentations_Item',DBF_presentations.Get_Presentations_Item)
+router.post('/get_presentations_item',DBF_presentations.Get_Presentations_Item)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -161,7 +161,7 @@ router.post('/Get_Presentations_Item',DBF_presentations.Get_Presentations_Item)
     ]`);
 
 // // // 6.3
-router.post('/Remove_Images_In_Item',DBF_images.Remove_Images_In_Item)
+router.post('/remove_images_in_item',DBF_images.Remove_Images_In_Item)
     .body(sc.string_number_array, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -175,7 +175,7 @@ router.post('/Remove_Images_In_Item',DBF_images.Remove_Images_In_Item)
     ]`);
 
 // // // 6.2
-router.post('Insert_Images_In_Item',DBF_images.Insert_Images_In_Item)
+router.post('insert_images_in_item',DBF_images.Insert_Images_In_Item)
     .body(sc.string_number_array, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -190,7 +190,7 @@ router.post('Insert_Images_In_Item',DBF_images.Insert_Images_In_Item)
     ]`);
 
 // // 6.1
-router.post('Get_Images_Item',DBF_images.Get_Images_Item)
+router.post('get_images_item',DBF_images.Get_Images_Item)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -200,7 +200,7 @@ router.post('Get_Images_Item',DBF_images.Get_Images_Item)
     ]`);
 
 // // 5.3
-router.post('/Remove_Main_Logo_Item',DBF_mainLogo.Remove_Main_Logo_Item)
+router.post('/remove_main_logo_item',DBF_mainLogo.Remove_Main_Logo_Item)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -210,7 +210,7 @@ router.post('/Remove_Main_Logo_Item',DBF_mainLogo.Remove_Main_Logo_Item)
     ]`);
 
 // 5.2
-router.post('/Insert_Update_Main_Logo_Item',DBF_mainLogo.Insert_Update_Main_Logo_Item)
+router.post('/insert_update_main_logo_item',DBF_mainLogo.Insert_Update_Main_Logo_Item)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -222,7 +222,7 @@ router.post('/Insert_Update_Main_Logo_Item',DBF_mainLogo.Insert_Update_Main_Logo
 ]`);
 
 // 5.1
-router.post('/Get_Main_Logo_Item',DBF_mainLogo.Get_Main_Logo_Item)
+router.post('/get_main_logo_item',DBF_mainLogo.Get_Main_Logo_Item)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -233,7 +233,7 @@ router.post('/Get_Main_Logo_Item',DBF_mainLogo.Get_Main_Logo_Item)
 
 
 // 4.3
-router.post('/Update_Item_Description_In_One_Language',DBF_description.Update_Item_Description_In_One_Language)
+router.post('/update_item_description_in_one_language',DBF_description.Update_Item_Description_In_One_Language)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -246,7 +246,7 @@ router.post('/Update_Item_Description_In_One_Language',DBF_description.Update_It
 ]`);
 
 // 4.2
-router.post('/Update_Item_Description_In_Every_Language',DBF_description.Update_Item_Description_In_Every_Language)
+router.post('/update_item_description_in_every_language',DBF_description.Update_Item_Description_In_Every_Language)
     .body(sc.object_string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -263,7 +263,7 @@ router.post('/Update_Item_Description_In_Every_Language',DBF_description.Update_
     ]`);
 
 // 4.1
-router.post('/Get_Item_Description',DBF_description.Get_Item_Description)
+router.post('/get_item_description',DBF_description.Get_Item_Description)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -275,7 +275,7 @@ router.post('/Get_Item_Description',DBF_description.Get_Item_Description)
 ]`);
 
 //3.3
-router.post('/Insert_Item_In_New_Prop',DBF_property.Insert_Item_In_New_Prop)
+router.post('/insert_item_in_new_prop',DBF_property.Insert_Item_In_New_Prop)
     .body(sc.string_number_array, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -293,7 +293,7 @@ router.post('/Insert_Item_In_New_Prop',DBF_property.Insert_Item_In_New_Prop)
     ]`);
 
 // // 3.2
-router.post('/Insert_New_Property_In_Properties_Collection',DBF_property.Insert_New_Property_In_Properties_Collection)
+router.post('/insert_new_property_in_properties_collection',DBF_property.Insert_New_Property_In_Properties_Collection)
     .body(sc.object_string, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -310,7 +310,7 @@ router.post('/Insert_New_Property_In_Properties_Collection',DBF_property.Insert_
 
 
 ////3.1
-router.post('/Get_All_Properties',DBF_property.Get_All_Properties)
+router.post('/get_all_properties',DBF_property.Get_All_Properties)
     .body(sc.string, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -329,7 +329,7 @@ router.post('/Get_All_Items_In_Category',DBF_category.Get_All_Items_In_Category)
     ]`);
 
 //2.4
-router.post('/Get_Items_Amount_Of_Category',DBF_category.Get_Items_Amount_Of_Category)
+router.post('/get_items_amount_of_category',DBF_category.Get_Items_Amount_Of_Category)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -338,7 +338,7 @@ router.post('/Get_Items_Amount_Of_Category',DBF_category.Get_Items_Amount_Of_Cat
     ]`);
 
 //2.3
-router.post('/Assignment_Of_A_Category_To_An_Items',DBF_category.Assignment_Of_A_Category_To_An_Items)
+router.post('/assignment_of_a_category_to_an_items',DBF_category.Assignment_Of_A_Category_To_An_Items)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -351,7 +351,7 @@ router.post('/Assignment_Of_A_Category_To_An_Items',DBF_category.Assignment_Of_A
 
 
 // 2.2
-router.post('/Create_New_Category',DBF_category.Create_New_Category)
+router.post('/create_new_category',DBF_category.Create_New_Category)
     .body(sc.object, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -367,7 +367,7 @@ router.post('/Create_New_Category',DBF_category.Create_New_Category)
 
 
 //2.1
-router.post('/Get_All_Categories',DBF_category.Get_All_Categories)
+router.post('/get_all_categories',DBF_category.Get_All_Categories)
     .body(sc.string, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -377,7 +377,7 @@ router.post('/Get_All_Categories',DBF_category.Get_All_Categories)
 
 //1.3
 
-router.post('/Get_Item_Info',DBF_item.Get_Item_Info)
+router.post('/get_item_info',DBF_item.Get_Item_Info)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -387,12 +387,12 @@ router.post('/Get_Item_Info',DBF_item.Get_Item_Info)
         4
     ]`);
 //1.2
-router.post('/Update_Item_Name',DBF_item.Update_Item_Name)
+router.post('/update_item_name',DBF_item.Update_Item_Name)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 
 // 1.1
-router.post('/Get_Item_Name',DBF_item.Get_Item_Name)
+router.post('/get_item_name',DBF_item.Get_Item_Name)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 
