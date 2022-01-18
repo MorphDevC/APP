@@ -319,6 +319,15 @@ router.post('/Get_All_Properties',DBF_property.Get_All_Properties)
         "en"
     ]`);
 
+// 2.5
+router.post('/Get_All_Items_In_Category',DBF_category.Get_All_Items_In_Category)
+    .body(sc.string_number, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web"
+    ]`);
+
 //2.4
 router.post('/Get_Items_Amount_Of_Category',DBF_category.Get_Items_Amount_Of_Category)
     .body(sc.string_number, 'This body will be a string.')

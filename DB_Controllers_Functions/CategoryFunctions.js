@@ -5,6 +5,33 @@ const SFn = require("./../SupportFunctions.js");
 const Logs = require("./../DB_Support_Files/LogsManager.js");
 const Errors = require("./../DB_Support_Files/DB_Errors.js");
 
+// 2.5
+function Returnable_Get_All_Items_In_Category(req,res)
+{
+    let {0:category,...other} = req.body
+
+    category = category?category.toLowerCase():null
+    const doesTargetCategoryExist = DBSFunctions.DoesCollectionExists(category)
+    if(doesTargetCategoryExist===true)
+    {
+        const items = db._query(
+            {
+                query:`FOR item IN @@targetCollection RETURN [item.name, item._key]`,
+                bindVars:
+                    {
+                        "@targetCollection":category
+                    }
+            }
+        ).toArray()
+        return items
+    }
+}
+function Get_All_Items_In_Category(req,res)
+{
+    let items = Returnable_Get_All_Items_In_Category(req,res);
+    res.send(items);
+}
+
 //2.4
 function Returnable_Get_Items_Amount_Of_Category(req,res)
 {
@@ -244,3 +271,4 @@ module.exports.Assignment_Of_A_Category_To_An_Items = Assignment_Of_A_Category_T
 module.exports.Create_New_Category = Create_New_Category;
 module.exports.Get_All_Categories = Get_All_Categories;
 module.exports.Get_Items_Amount_Of_Category = Get_Items_Amount_Of_Category;
+module.exports.Get_All_Items_In_Category=Get_All_Items_In_Category;
