@@ -3,7 +3,7 @@ const db=require('@arangodb').db;
 const DBSFunctions = require('./DB_SupportFunctions');
 
 // // // 7.3
-function Returnable_Remove_Presentation_In_Item(req,res)
+function returnable_remove_presentation_in_item(req,res)
 {
     let {0:item_category,1:item_key,2:item_removable_presentations,...other} = req.body
 
@@ -33,7 +33,7 @@ in @@target_collection return NEW`,
 }
 
 // // // 7.2
-function Returnable_Insert_New_Presentation_In_Item(req,res)
+function returnable_insert_new_presentation_in_item(req,res)
 {
     let {0:item_category,1:item_key,2:item_insertable_presentations,...other} = req.body
 
@@ -61,7 +61,7 @@ in @@ref_target_collection return NEW`,
 
 
 // // // 7.1
-function Returnable_Get_Presentations_Item(req,res)
+function returnable_get_presentations_item(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -83,22 +83,22 @@ function Returnable_Get_Presentations_Item(req,res)
     }
 }
 
-function Remove_Presentation_In_Item(req,res)
+function remove_presentation_in_item(req,res)
 {
-    let someVar = Returnable_Remove_Presentation_In_Item(req,res);
+    let someVar = returnable_remove_presentation_in_item(req,res);
     //res.send(someVar);
 }
-function Insert_New_Presentation_In_Item(req,res)
+function insert_new_presentation_in_item(req,res)
 {
-    let someVar = Returnable_Insert_New_Presentation_In_Item(req,res);
+    let someVar = returnable_insert_new_presentation_in_item(req,res);
     //res.send(someVar);
 }
-function Get_Presentations_Item(req,res)
+function get_presentations_item(req,res)
 {
-    let someVar = Returnable_Get_Presentations_Item(req,res);
+    let someVar = returnable_get_presentations_item(req,res);
     res.send(someVar);
 }
 
-module.exports.Remove_Presentation_In_Item=Remove_Presentation_In_Item;
-module.exports.Insert_New_Presentation_In_Item=Insert_New_Presentation_In_Item;
-module.exports.Get_Presentations_Item=Get_Presentations_Item;
+module.exports.remove_presentation_in_item=remove_presentation_in_item;
+module.exports.insert_new_presentation_in_item=insert_new_presentation_in_item;
+module.exports.get_presentations_item=get_presentations_item;

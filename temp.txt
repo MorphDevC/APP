@@ -1,5 +1,5 @@
 
-router.post('/Create_New_Category',
+router.post('/create_new_category',
 function (req,res)
 {
     const {0:category_names,...other} = req;

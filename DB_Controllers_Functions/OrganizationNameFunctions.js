@@ -3,7 +3,7 @@ const db=require('@arangodb').db;
 const DBSFunctions = require('./DB_SupportFunctions');
 
 // ////10.2
-function Returnable_Insert_Update_Organization_Name_Item(req,res)
+function returnable_insert_update_organization_name_item(req,res)
 {
     let {0:item_category,1:item_key,2:new_organization_name_item,...other} = req.body
 
@@ -32,7 +32,7 @@ in @@target_collection return NEW.organization_name`,
 
 
 // // // // 10.1
-function Returnable_Get_Organization_Name_Item(req,res)
+function returnable_get_organization_name_item(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -54,16 +54,16 @@ function Returnable_Get_Organization_Name_Item(req,res)
     }
 }
 
-function Insert_Update_Organization_Name_Item(req,res)
+function insert_update_organization_name_item(req,res)
 {
-    let someVar = Returnable_Insert_Update_Organization_Name_Item(req,res);
+    let someVar = returnable_insert_update_organization_name_item(req,res);
     //res.send(someVar)
 }
-function Get_Organization_Name_Item(req,res)
+function get_organization_name_item(req,res)
 {
-    let someVar = Returnable_Get_Organization_Name_Item(req,res);
+    let someVar = returnable_get_organization_name_item(req,res);
     //res.send(someVar)
 }
 
-module.exports.Insert_Update_Organization_Name_Item=Insert_Update_Organization_Name_Item;
-module.exports.Get_Organization_Name_Item=Get_Organization_Name_Item;
+module.exports.insert_update_organization_name_item=insert_update_organization_name_item;
+module.exports.get_organization_name_item=get_organization_name_item;

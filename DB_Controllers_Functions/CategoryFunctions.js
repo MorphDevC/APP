@@ -6,7 +6,7 @@ const Logs = require("./../DB_Support_Files/LogsManager.js");
 const Errors = require("./../DB_Support_Files/DB_Errors.js");
 
 // 2.5
-function Returnable_Get_All_Items_In_Category(req,res)
+function returnable_get_all_items_in_category(req,res)
 {
     let {0:category,...other} = req.body
 
@@ -26,14 +26,14 @@ function Returnable_Get_All_Items_In_Category(req,res)
         return items
     }
 }
-function Get_All_Items_In_Category(req,res)
+function get_all_items_in_category(req,res)
 {
-    let items = Returnable_Get_All_Items_In_Category(req,res);
+    let items = returnable_get_all_items_in_category(req,res);
     res.send(items);
 }
 
 //2.4
-function Returnable_Get_Items_Amount_Of_Category(req,res)
+function returnable_get_items_amount_of_category(req, res)
 {
     //RETURN LENGTH(@@category)
     let {0:category,...other} = req.body
@@ -55,14 +55,14 @@ function Returnable_Get_Items_Amount_Of_Category(req,res)
     }
 }
 
-function Get_Items_Amount_Of_Category(req,res)
+function get_items_amount_of_category(req,res)
 {
-    let amountOfCategory = Returnable_Get_Items_Amount_Of_Category(req,res);
+    let amountOfCategory = returnable_get_items_amount_of_category(req,res);
     res.send(amountOfCategory);
 }
 
 //2.3
-function Returnable_Assignment_Of_A_Category_To_An_Items(req,res)
+function returnable_assignment_of_a_category_to_an_items(req,res)
 {
     //let {0:item_key,1:item_name,2:old_category,3:new_category,...other} = req.body //old version
     let {0:new_category,1:old_category,2:item_key,3:item_name,...other} = req.body
@@ -150,7 +150,7 @@ update property with {IDs: remove_value(property.IDs,@removable_item_id)} in @@r
                     }
             });
 
-            return "return smth in Assignment_Of_A_Category_To_An_Items"
+            return "return smth in assignment_of_a_category_to_an_items"
         }
     }
     else
@@ -158,14 +158,14 @@ update property with {IDs: remove_value(property.IDs,@removable_item_id)} in @@r
         Logs.WriteLogMessage(`There is no document in collection:'${new_category}' with key:'${new_category}'`)
     }
 }
-function Assignment_Of_A_Category_To_An_Items(req,res)
+function assignment_of_a_category_to_an_items(req,res)
 {
-    let someVar = Returnable_Assignment_Of_A_Category_To_An_Items(req,res)
+    let someVar = returnable_assignment_of_a_category_to_an_items(req,res)
     //send if needable
 }
 
 // 2.2
-function Returnable_Create_New_Category(req,res)
+function returnable_create_new_category(req,res)
 {
     const {0:category_names,...other} = req.body;
     if (Errors.ObjectChecks.ObjectHasProperty(category_names)===true) // Defense if there is no english name
@@ -223,9 +223,9 @@ update {name:merge(OLD.name,@property_names)} in support_collections_info return
     }
 
 }
-function Create_New_Category(req,res)
+function create_new_category(req,res)
 {
-    let someVar = Returnable_Create_New_Category(req,res);
+    let someVar = returnable_create_new_category(req,res);
     // Send if needable
 }
 
@@ -233,7 +233,7 @@ function Create_New_Category(req,res)
 
 
 //2.1
-function Returnable_Get_All_Categories(req,res)
+function returnable_get_all_categories(req,res)
 {
     // 2.1
 
@@ -261,14 +261,14 @@ concat("Missing category name '",c.name['en'], "' on language: '",@target_langua
     return cats
 
 }
-function Get_All_Categories(req,res)
+function get_all_categories(req,res)
 {
-    let categories = Returnable_Get_All_Categories(req,res);
+    let categories = returnable_get_all_categories(req,res);
     res.send(categories)
 }
 
-module.exports.Assignment_Of_A_Category_To_An_Items = Assignment_Of_A_Category_To_An_Items;
-module.exports.Create_New_Category = Create_New_Category;
-module.exports.Get_All_Categories = Get_All_Categories;
-module.exports.Get_Items_Amount_Of_Category = Get_Items_Amount_Of_Category;
-module.exports.Get_All_Items_In_Category=Get_All_Items_In_Category;
+module.exports.assignment_of_a_category_to_an_items = assignment_of_a_category_to_an_items;
+module.exports.create_new_category = create_new_category;
+module.exports.get_all_categories = get_all_categories;
+module.exports.get_items_amount_of_category = get_items_amount_of_category;
+module.exports.get_all_items_in_category=get_all_items_in_category;

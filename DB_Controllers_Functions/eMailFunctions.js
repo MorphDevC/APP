@@ -4,7 +4,7 @@ const DBSFunctions = require('./DB_SupportFunctions');
 const SFn = require("./../SupportFunctions.js");
 
 // // // //9.2
-function Returnable_Insert_Update_eMail_Item(req,res)
+function returnable_insert_update_email_item(req,res)
 {
     let {0:item_category,1:item_key,2:new_eMail_item,...other} = req.body
 
@@ -33,7 +33,7 @@ in @@target_collection return NEW.email`,
 }
 
 // // // 9.1
-function Returnable_Get_eMail_Item(req,res)
+function returnable_get_email_item(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -56,18 +56,18 @@ function Returnable_Get_eMail_Item(req,res)
 }
 
 
-function Insert_Update_eMail_Item(req,res)
+function insert_update_email_item(req,res)
 {
-    let someVar =   Returnable_Insert_Update_eMail_Item(req,res);
+    let someVar =   returnable_insert_update_email_item(req,res);
     // res.send(someVar)
 }
 
-function Get_eMail_Item(req,res)
+function get_email_item(req,res)
 {
-    let someVar =    Returnable_Get_eMail_Item(req,res);
+    let someVar =    returnable_get_email_item(req,res);
     // res.send(someVar)
 }
 
 
-module.exports.Insert_Update_eMail_Item=Insert_Update_eMail_Item;
-module.exports.Get_eMail_Item=Get_eMail_Item;
+module.exports.insert_update_email_item=insert_update_email_item;
+module.exports.get_email_item=get_email_item;

@@ -3,7 +3,7 @@ const db=require('@arangodb').db;
 const DBSFunctions = require('./DB_SupportFunctions');
 
 // // // 8.2
-function Returnable_Insert_Update_Company_Name_Item(req,res)
+function returnable_insert_update_company_name_item(req,res)
 {
     let {0:item_category,1:item_key,2:item_new_company_name,...other} = req.body
 
@@ -27,13 +27,13 @@ in @@target_collection return NEW.company_name`,
     }
 }
 
-function Insert_Update_Company_Name_Item(req,res)
+function insert_update_company_name_item(req,res)
 {
-    let someVar = Returnable_Insert_Update_Company_Name_Item(req,res)
+    let someVar = returnable_insert_update_company_name_item(req,res)
     //res.send(someVar)
 }
 // // // 8.1
-function Returnable_Get_Company_Name_Item(req,res)
+function returnable_get_company_name_item(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -55,12 +55,12 @@ function Returnable_Get_Company_Name_Item(req,res)
     }
 }
 
-function Get_Company_Name_Item(req,res)
+function get_company_name_item(req,res)
 {
-    let someVar = Returnable_Get_Company_Name_Item(req,res)
+    let someVar = returnable_get_company_name_item(req,res)
     //res.send(someVar)
 }
 
 
-module.exports.Insert_Update_Company_Name_Item=Insert_Update_Company_Name_Item;
-module.exports.Get_Company_Name_Item=Get_Company_Name_Item;
+module.exports.insert_update_company_name_item=insert_update_company_name_item;
+module.exports.get_company_name_item=get_company_name_item;

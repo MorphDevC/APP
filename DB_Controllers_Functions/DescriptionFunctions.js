@@ -5,7 +5,7 @@ const SFn = require("./../SupportFunctions.js");
 const Errors = require("./../DB_Support_Files/DB_Errors.js");
 
 // 4.3
-function Returnable_Update_Item_Description_In_One_Language(req,res)
+function returnable_update_item_description_in_one_language(req,res)
 {
     let {0:item_category,1:item_key,2:target_language,3:new_description,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
@@ -31,7 +31,7 @@ in @@target_category return NEW`,
 
 
 // 4.2
-function Returnable_Update_Item_Description_In_Every_Language(req,res)
+function returnable_update_item_description_in_every_language(req,res)
 {
     let {0:item_category,1:item_key,2:description,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
@@ -60,7 +60,7 @@ in @@target_category`,
 }
 
 // 4.1
-function Returnable_Get_Item_Description(req,res)
+function returnable_get_item_description(req,res)
 {
     let {0:item_category,1:item_key,2:target_language,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
@@ -88,22 +88,22 @@ doc.description[@language]`,
 }
 
 
-function Update_Item_Description_In_One_Language(req,res)
+function update_item_description_in_one_language(req,res)
 {
-    let someVar = Returnable_Update_Item_Description_In_One_Language(req,res);
+    let someVar = returnable_update_item_description_in_one_language(req,res);
     // res.send(someVar)
 }
-function Update_Item_Description_In_Every_Language(req,res)
+function update_item_description_in_every_language(req,res)
 {
-    let someVar = Returnable_Update_Item_Description_In_Every_Language(req,res);
+    let someVar = returnable_update_item_description_in_every_language(req,res);
     // res.send(someVar)
 }
-function Get_Item_Description(req,res)
+function get_item_description(req,res)
 {
-    let someVar = Returnable_Get_Item_Description(req,res);
+    let someVar = returnable_get_item_description(req,res);
     // res.send(someVar)
 }
 
-module.exports.Update_Item_Description_In_One_Language = Update_Item_Description_In_One_Language;
-module.exports.Update_Item_Description_In_Every_Language=Update_Item_Description_In_Every_Language;
-module.exports.Get_Item_Description=Get_Item_Description;
+module.exports.update_item_description_in_one_language = update_item_description_in_one_language;
+module.exports.update_item_description_in_every_language=update_item_description_in_every_language;
+module.exports.get_item_description=get_item_description;

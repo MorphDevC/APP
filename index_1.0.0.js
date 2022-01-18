@@ -118,7 +118,7 @@ router.post('/Insert_Items_In_New_Prop',function (req,res){
 
 
 // // // 11.2
-router.post( '/Insert_Update_Phone_Item',function (req,res)
+router.post( '/insert_update_phone_item',function (req,res)
 {
     let {0:item_category,1:item_key,2:new_phone_item,...other} = req.body
 
@@ -160,10 +160,10 @@ in @@target_collection return NEW.phone`,
 //     2,
 //     "+7 916-680-77-64"
 // ]
-// Insert_Update_Phone_Item(req)
+// insert_update_phone_item(req)
 
 // // // 11.1
-router.post('/Get_Phone_Item', function(req,res)
+router.post('/get_phone_item', function(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -191,12 +191,12 @@ router.post('/Get_Phone_Item', function(req,res)
 // //         "aaaaa_category_marketing_in_social_web",
 // //         2
 // //     ]
-// // Get_Phone_Item(req)
+// // get_phone_item(req)
 // //
 
 
 // ////10.2
-router.post('/Insert_Update_Organization_Name_Item' ,function(req,res)
+router.post('/insert_update_organization_name_item' ,function(req,res)
 {
     let {0:item_category,1:item_key,2:new_organization_name_item,...other} = req.body
 
@@ -229,11 +229,11 @@ in @@target_collection return NEW.organization_name`,
 // // //     2,
 // // //     "OWLM organization name"
 // // // ]
-// // // Insert_Update_Organization_Name_Item(req)
+// // // insert_update_organization_name_item(req)
 
 
 // // // // 10.1
-router.post('/Get_Organization_Name_Item',function(req,res)
+router.post('/get_organization_name_item',function(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -260,11 +260,11 @@ router.post('/Get_Organization_Name_Item',function(req,res)
 // // // //         "aaaaa_category_marketing_in_social_web",
 // // // //         2
 // // // //     ]
-// // // // Get_Organization_Name_Item(req)
+// // // // get_organization_name_item(req)
 
 
 // // // //9.2
-router.post('/Insert_Update_eMail_Item',function(req,res)
+router.post('/insert_update_email_item',function(req,res)
 {
     let {0:item_category,1:item_key,2:new_eMail_item,...other} = req.body
 
@@ -298,11 +298,11 @@ in @@target_collection return NEW.email`,
 // // // //     2,
 // // // //     "OWLM_eMail@gmail.com"
 // // // // ]
-// // // // Insert_Update_eMail_Item(req)
+// // // // insert_update_email_item(req)
 
 
 // // // 9.1
-router.post('/Get_eMail_Item',function(req,res)
+router.post('/get_email_item',function(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -330,7 +330,7 @@ router.post('/Get_eMail_Item',function(req,res)
 // // //     "aaaaa_category_marketing_in_social_web",
 // // //     2
 // // // ]
-// // // Get_eMail_Item(req)
+// // // get_email_item(req)
 
 
 // // // 8.2
@@ -367,7 +367,7 @@ in @@target_collection return NEW.company_name`,
 // // // Insert_Update_Company_Name_Item(req)
 
 // // // 8.1
-router.post('/Get_Company_Name_Item',function(req,res)
+router.post('/get_company_name_item',function(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -394,7 +394,7 @@ router.post('/Get_Company_Name_Item',function(req,res)
 // // //     "aaaaa_category_marketing_in_social_web",
 // // //     2
 // // // ]
-// // // Get_Company_Name_Item(req)
+// // // get_company_name_item(req)
 
 // // // 7.3
 router.post('Remove_Presentation_In_Item',function(req,res)
@@ -436,10 +436,10 @@ in @@target_collection return NEW`,
 // // //         "S:\\2_University\\1_Education\\3_course\\6_sem\\Одинцова\\UnlockЛК_Предметно-ориентированные_ИС_Тема-1 (1).pdf"
 // // //     ]
 // // // ]
-// // // Remove_Presentation_In_Item(req)
+// // // remove_presentation_in_item(req)
 
 // // // 7.2
-router.post('/Insert_New_Presentation_In_Item',function(req,res)
+router.post('/insert_new_presentation_in_item',function(req,res)
 {
     let {0:item_category,1:item_key,2:item_insertable_presentations,...other} = req.body
 
@@ -478,11 +478,11 @@ in @@ref_target_collection return NEW`,
 // // //     ]
 // // // ]
 // // //
-// // // Insert_New_Presentation_In_Item(req)
+// // // insert_new_presentation_in_item(req)
 
 
 // // // 7.1
-router.post('/Get_Presentations_Item',function(req,res)
+router.post('/get_presentations_item',function(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -508,10 +508,10 @@ router.post('/Get_Presentations_Item',function(req,res)
 // // //     "aaaaa_category_marketing_in_social_web",
 // // //     2
 // // // ]
-// // // Get_Presentations_Item(req)
+// // // get_presentations_item(req)
 
 // // // 6.3
-router.post('/Remove_Images_In_Item',function(req,res)
+router.post('/remove_images_in_item',function(req,res)
 {
     let {0:item_category,1:item_key,2:item_removable_images,...other} = req.body
 
@@ -548,7 +548,7 @@ in @@target_collection return NEW`,
 // // //         "S:\\4_Images\\Smoke\\3.jpg"
 // // //     ]
 // // // ]
-// // // Remove_Images_In_Item(req)
+// // // remove_images_in_item(req)
 
 // // // 6.2
 router.post('Insert_Images_In_Item',function(req,res)
@@ -587,7 +587,7 @@ in @@ref_target_collection return NEW`,
 // //         "S:\\4_Images\\Smoke\\1.jpg",
 // //     ]
 // // ]
-// // Insert_Images_In_Item(req)
+// // insert_images_in_item(req)
 
 // // 6.1
 router.post('Get_Images_Item',function(req,res)
@@ -618,10 +618,10 @@ router.post('Get_Images_Item',function(req,res)
 // //     "aaaaa_category_marketing_in_social_web",
 // //     2
 // // ]
-// // Get_Images_Item(req)
+// // get_images_item(req)
 
 // // 5.3
-router.post('/Remove_Main_Logo_Item',function(req,res)
+router.post('/remove_main_logo_item',function(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body
 
@@ -650,10 +650,10 @@ return NEW`,
 //     "aaaaa_category_marketing_in_social_web",
 //     2
 // ]
-// Remove_Main_Logo_Item(req)
+// remove_main_logo_item(req)
 
 // 5.2
-router.post('/Insert_Update_Main_Logo_Item',function(req,res)
+router.post('/insert_update_main_logo_item',function(req,res)
 {
     const default_image = "S:\\4_Images\\DefaultImage.jpg"
 
@@ -687,10 +687,10 @@ return NEW`,
 //     "S:\\4_Images\\ef6c2cf4811eb8ef6b79f6b5077f4.jpeg"//S:\\4_Images\\uln_vGXMNU8.jpg
 //
 // ]
-// Insert_Update_Main_Logo_Item(req)
+// insert_update_main_logo_item(req)
 
 // 5.1
-router.post('/Get_Main_Logo_Item',function(req,res)
+router.post('/get_main_logo_item',function(req,res)
 {
     let {0:item_category,1:item_key,...other} = req.body //aaaab_category_push_notifications
 
@@ -718,10 +718,10 @@ return main_logo==""||main_logo==null?"Main logo is missing":main_logo`,
 //     "aaaaa_category_marketing_in_social_web",
 //     2
 // ]
-// Get_Main_Logo_Item(req)
+// get_main_logo_item(req)
 
 // 4.3
-router.post('/Update_Item_Description_In_One_Language',function(req,res)
+router.post('/update_item_description_in_one_language',function(req,res)
 {
     let {0:item_category,1:item_key,2:target_language,3:new_description,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
@@ -754,10 +754,10 @@ in @@target_category return NEW`,
 //     "New description"
 //
 // ]
-// Update_Item_Description_In_One_Language(req)
+// update_item_description_in_one_language(req)
 
 // 4.2
-router.post('/Update_Item_Description_In_Every_Language',function(req,res)
+router.post('/update_item_description_in_every_language',function(req,res)
 {
     let {0:item_category,1:item_key,2:description,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
@@ -798,10 +798,10 @@ in @@target_category`,
 //         "ru":"Some description on Russian from JS"
 //     }
 // ]
-// Update_Item_Description_In_Every_Language(req)
+// update_item_description_in_every_language(req)
 
 // 4.1
-router.post('/Get_Item_Description',function(req,res)
+router.post('/get_item_description',function(req,res)
 {
     let {0:item_category,1:item_key,2:target_language,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
@@ -836,10 +836,10 @@ doc.description[@language]`,
 //     "ru"
 //
 // ]
-// Get_Item_Description(req)
+// get_item_description(req)
 
 //3.3
-router.post('/Insert_Item_In_New_Prop',function(req,res)
+router.post('/insert_item_in_new_prop',function(req,res)
 {
     let {0:item_category,1:item_key,2:added_properties,3:removable_properties,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
@@ -925,10 +925,10 @@ router.post('/Insert_Item_In_New_Prop',function(req,res)
 //     ],
 //     [""]
 // ]
-// Insert_Item_In_New_Prop(req,"")
+// insert_item_in_new_prop(req,"")
 
 // // 3.2
-router.post('/Insert_New_Property_In_Properties_Collection',function(req,res)
+router.post('/insert_new_property_in_properties_collection',function(req,res)
 {
     let {0:target_category,1:insertable_property_names,...other}= req
     target_category=target_category.toLowerCase()
@@ -1005,11 +1005,11 @@ update {name:merge(OLD.name,@property_names)} in @@target_properties_collection 
 //         "ru":"Property name on Russian from JS"
 //     }
 // ]
-// Insert_New_Property_In_Properties_Collection(req)
+// insert_new_property_in_properties_collection(req)
 
 
 ////3.1
-router.post('/Get_All_Properties',function(req,res)
+router.post('/get_all_properties',function(req,res)
 {
     //3.1
     // #reference to FUNC 2.2
@@ -1045,11 +1045,11 @@ property.name[@target_language]`,
 // //     "AAAAA_Category_Marketing_In_Social_Web",
 // //     "en"
 // // ]
-// // Get_All_Properties(req)
+// // get_all_properties(req)
 
 
 //2.3
-router.post('/Assignment_Of_A_Category_To_An_Items',function(req,res)
+router.post('/assignment_of_a_category_to_an_items',function(req,res)
 {
     //let {0:item_key,1:item_name,2:old_category,3:new_category,...other} = req.body //old version
     let {0:new_category,1:old_category,2:item_key,3:item_name,...other} = req.body
@@ -1169,11 +1169,11 @@ update property with {IDs: remove_value(property.IDs,@removable_item_id)} in @@r
 //     "Item_name"
 // ]
 // // //
-// // Assignment_Of_A_Category_To_An_Items(req)
+// // assignment_of_a_category_to_an_items(req)
 
 
 // 2.2
-router.post('/Create_New_Category',function(req,res)
+router.post('/create_new_category',function(req,res)
 {
     const {0:category_names,...other} = req.body;
     if (Errors.ObjectChecks.ObjectHasProperty(category_names)===true) // Defense if there is no english name
@@ -1241,13 +1241,13 @@ update {name:merge(OLD.name,@property_names)} in support_collections_info return
 //         "ru":"Category name on Russian from JS"
 //     }
 // ]
-// Create_New_Category(req)
+// create_new_category(req)
 
 //ViewUpdater("aaaad_category_category_name_on_english_from_js")
 
 
 //2.1
-router.post('/Get_All_Categories',function(req,res)
+router.post('/get_all_categories',function(req,res)
 {
     // 2.1
 
@@ -1288,7 +1288,7 @@ concat("Missing category name '",c.name['en'], "' on language: '",@target_langua
 // [
 //     "dg"
 // ]
-// Get_All_Categories(req)
+// get_all_categories(req)
 
 //1.2
 router.post('/Update_Item_Name',function(req,res)

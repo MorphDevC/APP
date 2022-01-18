@@ -3,7 +3,7 @@ const db=require('@arangodb').db;
 const DBSFunctions = require('./DB_SupportFunctions');
 
 // // // 6.3
-function Returnable_Remove_Images_In_Item(req,res)
+function returnable_remove_images_in_item(req,res)
 {
     let {0:item_category,1:item_key,2:item_removable_images,...other} = req.body
 
@@ -32,7 +32,7 @@ in @@target_collection return NEW`,
 }
 
 // // // 6.2
-function Returnable_Insert_Images_In_Item(req,res)
+function returnable_insert_images_in_item(req,res)
 {
     let {0:item_category,1:item_key,2:item_insertable_images,...other} = req.body
 
@@ -59,7 +59,7 @@ in @@ref_target_collection return NEW`,
 }
 
 // // 6.1
-function Returnable_Get_Images_Item(req,res)
+function returnable_get_images_item(req,res)
 {
 
     let {0:item_category,1:item_key,...other} = req.body
@@ -83,22 +83,22 @@ function Returnable_Get_Images_Item(req,res)
     }
 }
 
-function Remove_Images_In_Item(req,res)
+function remove_images_in_item(req,res)
 {
-    let someVar = Returnable_Remove_Images_In_Item(req,res);
+    let someVar = returnable_remove_images_in_item(req,res);
     //res.send(someVar)
 }
-function Insert_Images_In_Item(req,res)
+function insert_images_in_item(req,res)
 {
-    let someVar = Returnable_Insert_Images_In_Item(req,res);
+    let someVar = returnable_insert_images_in_item(req,res);
     //res.send(someVar)
 }
-function Get_Images_Item(req,res)
+function get_images_item(req,res)
 {
-    let someVar = Returnable_Get_Images_Item(req,res);
+    let someVar = returnable_get_images_item(req,res);
     res.send(someVar)
 }
 
-module.exports.Remove_Images_In_Item=Remove_Images_In_Item;
-module.exports.Insert_Images_In_Item=Insert_Images_In_Item;
-module.exports.Get_Images_Item=Get_Images_Item;
+module.exports.remove_images_in_item=remove_images_in_item;
+module.exports.insert_images_in_item=insert_images_in_item;
+module.exports.get_images_item=get_images_item;
