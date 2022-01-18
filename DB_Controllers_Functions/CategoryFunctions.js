@@ -236,7 +236,6 @@ function create_new_category(req,res)
 function returnable_get_all_categories(req,res)
 {
     // 2.1
-
     let {0:target_language,...other} = req.body
     target_language = SFn.GetTargetLanguageDefence(target_language)//defence from errors
 
