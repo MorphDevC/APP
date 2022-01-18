@@ -366,9 +366,21 @@ router.post('/get_all_categories',DBF_category.Get_All_Categories)
         "dg"
     ]`);
 
+//1.4
+
+router.post('/get_short_item_info',DBF_item.get_short_item_info)
+    .body(sc.string_number, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+        "aaaaa_category_marketing_in_social_web",
+        "ru",
+        4
+    ]`);
+
 //1.3
 
-router.post('/get_item_info',DBF_item.Get_Item_Info)
+router.post('/get_item_info',DBF_item.get_item_info)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
@@ -378,12 +390,12 @@ router.post('/get_item_info',DBF_item.Get_Item_Info)
         4
     ]`);
 //1.2
-router.post('/update_item_name',DBF_item.Update_Item_Name)
+router.post('/update_item_name',DBF_item.update_item_name)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 
 // 1.1
-router.post('/get_item_name',DBF_item.Get_Item_Name)
+router.post('/get_item_name',DBF_item.get_item_name)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.');
 
