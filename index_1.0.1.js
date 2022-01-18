@@ -372,7 +372,7 @@ router.post('/get_all_categories',DBF_category.get_all_categories)
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
     [
-        "dg"
+        "de"
     ]`);
 
 //1.4
