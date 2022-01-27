@@ -4,6 +4,137 @@ const DBSFunctions = require('./DB_SupportFunctions');
 const Logs = require("./../DB_Support_Files/LogsManager.js");
 const SFn = require("./../SupportFunctions.js");
 
+//1.8
+function returnable_get_shot_items_info_by_properties_and_company_names(req,res)
+{
+    const{0:target_category,1:target_language,2:target_properties_keys,3:target_company_names,...other} = req.body;
+
+    if(target_company_names.length>0 && target_properties_keys.length>0)
+    {
+        const target_properties_collection = SFn.ReplaceWord(target_category,'category','properties')
+        return db._query(
+            {
+                query: `for item in categories
+search @target_properties all in item.properties AND item.company_name in @target_company_names
+OPTIONS { collections: [@target_collection] }
+return {
+    name:item.name,
+    company_name:item.company_name,
+    logo: item.main_logo,
+    properties: (for itemProp in item.properties
+                    for prop in @@target_properties_collection
+                    filter itemProp==prop._key
+                    return prop.name[@targetLanguage])
+}
+`,
+                bindVars:
+                    {
+                        "target_properties": target_properties_keys,
+                        "target_company_names": target_company_names,
+                        "target_collection": target_category,
+                        "@target_properties_collection": target_properties_collection,
+                        "targetLanguage": target_language
+                    }
+            }
+        ).toArray();
+    }
+    else if(target_company_names.length ===0 && target_properties_keys.length!==0)
+        return returnable_get_items_by_properties(req);
+    else if(target_properties_keys.length===0 && target_company_names.length!==0)
+        return returnable_get_items_by_company_name(req);
+    return "error";
+
+}
+
+
+//1.7
+function returnable_get_items_by_company_name(req,res)
+{
+    const{0:target_category,1:target_language,2:target_properties_keys,3:target_company_names,...other} = req.body;
+    const target_properties_collection = SFn.ReplaceWord(target_category,'category','properties')
+
+    return db._query(
+        {
+            query: `for item in categories
+search item.company_name in @target_company_names
+OPTIONS { collections: [@target_collection] }
+return {
+    name:item.name,
+    company_name:item.company_name,
+    logo: item.main_logo,
+    properties: (for itemProp in item.properties
+                    for prop in @@target_properties_collection
+                    filter itemProp==prop._key
+                    return prop.name[@targetLanguage])
+}
+`,
+            bindVars:
+                {
+                    "target_collection": target_category,
+                    "@target_properties_collection": target_properties_collection,
+                    "targetLanguage": target_language
+                }
+        }
+    ).toArray();
+}
+
+//1.6
+function returnable_get_items_by_properties(req,res)
+{
+    const{0:target_category,1:target_language,2:target_properties_keys,...other} = req.body;
+    const target_properties_collection = SFn.ReplaceWord(target_category,'category','properties')
+
+    return db._query(
+        {
+            query: `for item in categories
+search @target_properties all in item.properties
+OPTIONS { collections: [@target_collection] }
+return {
+    name:item.name,
+    company_name:item.company_name,
+    logo: item.main_logo,
+    properties: (for itemProp in item.properties
+                    for prop in @@target_properties_collection
+                    filter itemProp==prop._key
+                    return prop.name[@targetLanguage])
+}
+`,
+            bindVars:
+                {
+                    "target_properties": target_properties_keys,
+                    "target_collection": target_category,
+                    "@target_properties_collection": target_properties_collection,
+                    "targetLanguage": target_language
+                }
+        }
+    ).toArray();
+}
+
+//1.5
+function returnable_get_full_item_info(req,res)
+{
+    let {0:item_category,1:item_key,...other} = req.body
+
+    item_category = item_category?item_category.toLowerCase():null
+    const doesTargetDocumentExist = DBSFunctions.DoesDocumentExistsInTargetCollection(item_category,item_key)
+    if(doesTargetDocumentExist===true)
+    {
+        const{0:result} = db._query(
+            {
+                query:`let target_item = document(@@target_collection,to_string(@target_item))
+return target_item`,
+                bindVars:
+                    {
+                        "target_item": item_key,
+                        "@target_collection": item_category
+                    }
+            }
+        ).toArray()
+
+        return result
+    }
+}
+
 //1.4
 function returnable_get_short_item_info(req,res)
 {
@@ -156,9 +287,21 @@ function get_short_item_info(req,res)
     let info = returnable_get_short_item_info(req);
     res.send(info);
 }
+function get_full_item_info(req,res)
+{
+    let info = returnable_get_full_item_info(req,res);
+    res.send(info);
+}
+function get_items_by_properties_and_company_names(req,res)
+{
+    let items = returnable_get_shot_items_info_by_properties_and_company_names(req,res);
+    res.send(items);
+}
 
 
 module.exports.get_item_name = get_item_name;
 module.exports.update_item_name = update_item_name;
 module.exports.get_item_info = get_item_info;
 module.exports.get_short_item_info = get_short_item_info;
+module.exports.get_full_item_info = get_full_item_info;
+module.exports.get_items_by_properties_and_company_names = get_items_by_properties_and_company_names;

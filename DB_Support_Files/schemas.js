@@ -10,6 +10,11 @@ exports.string_number= joi.array().items(
     joi.number()
 ).required()
 
+exports.string_array= joi.array().items(
+    joi.string().allow(null,''),
+    joi.array().items(joi.string().allow(null,''))
+).required()
+
 exports.string_number_array = joi.array().items(
     joi.string().allow(null,''),
     joi.number(),

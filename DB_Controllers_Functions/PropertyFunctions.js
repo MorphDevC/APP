@@ -134,9 +134,9 @@ function returnable_get_all_properties(req,res)
     const props = db._query(
         {
             query:`for property in @@reference_property_collection
-RETURN property.name[@target_language]==""?
-concat("Missing property name '",property.name['en'], "' on language: '",@target_language,"'"):
-property.name[@target_language]`,
+RETURN property.name[@target_language]=="" || property.name[@target_language]==null?
+[concat("Missing property name '",property.name['en'], "' on language: '",@target_language,"'"),property._key]:
+[property.name[@target_language],property._key]`,
             bindVars:
                 {
                     "@reference_property_collection": property_collection,
@@ -161,7 +161,7 @@ function insert_new_property_in_properties_collection(req,res)
 function get_all_properties(req,res)
 {
     let someVar = returnable_get_all_properties(req,res);
-    //res.send(someVar)
+    res.send(someVar)
 }
 
 module.exports.insert_item_in_new_prop = insert_item_in_new_prop;

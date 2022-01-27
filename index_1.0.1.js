@@ -319,6 +319,30 @@ router.post('/get_all_properties',DBF_property.get_all_properties)
         "en"
     ]`);
 
+//2.7
+router.post('/get_all_companies_in_category',DBF_category.get_all_companies_in_category)
+    .body(sc.string_number, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web"
+    ]`);
+
+//2.6
+router.post('/create_main_category',DBF_category.create_main_category)
+    .body(sc.object, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    {
+    "de": "main cat asdf on de",
+    "en": "main cat asdf on en",
+    "es": "main cat asdf on es",
+    "fr": "main cat asdf on fr",
+    "ru": "main cat asdf on ru"
+    }
+]`);
+
 // 2.5
 router.post('/get_all_items_in_category',DBF_category.get_all_items_in_category)
     .body(sc.string_number, 'This body will be a string.')
@@ -375,8 +399,33 @@ router.post('/get_all_categories',DBF_category.get_all_categories)
         "de"
     ]`);
 
-//1.4
+//1.8
+router.post('/get_items_by_properties_and_company_names',DBF_item.get_items_by_properties_and_company_names)
+    .body(sc.string_array, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+    "en",
+    ["property_1_on_english","property_3_on_english","property_6_on_english","property_7_on_english"],
+    ["Company_Name_5","Company_Name_17"]
+]`);
 
+//1.7
+
+//1.6
+
+//1.5
+router.post('/get_full_item_info',DBF_item.get_full_item_info)
+    .body(sc.string_number, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+        "aaaaa_category_marketing_in_social_web",
+        4
+    ]`);
+
+//1.4
 router.post('/get_short_item_info',DBF_item.get_short_item_info)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')

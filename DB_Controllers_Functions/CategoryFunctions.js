@@ -5,6 +5,68 @@ const SFn = require("./../SupportFunctions.js");
 const Logs = require("./../DB_Support_Files/LogsManager.js");
 const Errors = require("./../DB_Support_Files/DB_Errors.js");
 
+
+//2.7
+function returnable_get_all_companies_in_category(req,res)
+{
+    let {0:target_category,...other} = req.body
+
+    target_category = target_category?target_category.toLowerCase():null
+    return db._query(
+        {
+            query: `FOR item IN @@targetCollection RETURN item.company_name`,
+            bindVars:
+                {
+                    "@targetCollection": target_category
+                }
+        }
+    ).toArray()
+}
+function get_all_companies_in_category(req,res)
+{
+    let companies = returnable_get_all_companies_in_category(req,res);
+    res.send(companies);
+}
+
+//2.6
+function returnable_create_main_category(req,res)
+{
+        const {0:main_category_names,...other} = req.body;
+
+        let {0:last_key} = db._query(
+            `let keys = (for i in group_categories
+    return i._key)
+    return last(keys)`
+        ).toArray()
+        const next_key = SFn.CreateNewPrefix(last_key)
+        const {0:template_to_parse} = db._query(SFn.GetTemplateDocumentOfCollection("group_categories")).toArray();
+
+        let document_template =SFn.ParseDocument(template_to_parse,next_key,true)
+        let {0:k} = db._query(
+            {
+                query:`for i in 1..2
+upsert {_key:to_string(@target_key)}
+insert ${document_template}
+update {name:merge(OLD.name,@main_category_names)} in group_categories return NEW`,
+                bindVars:
+                    {
+                        "target_key": next_key,
+                        "main_category_names": main_category_names
+                    }
+            }
+        ).toArray()
+}
+function create_main_category(req,res)
+{
+    try {
+        let m = returnable_create_main_category(req)
+        res.send("Main category has been created")
+    }
+    catch (e) {
+        res.send(e.message)
+    }
+}
+
 // 2.5
 function returnable_get_all_items_in_category(req,res)
 {
@@ -271,3 +333,5 @@ module.exports.create_new_category = create_new_category;
 module.exports.get_all_categories = get_all_categories;
 module.exports.get_items_amount_of_category = get_items_amount_of_category;
 module.exports.get_all_items_in_category=get_all_items_in_category;
+module.exports.create_main_category = create_main_category;
+module.exports.get_all_companies_in_category=get_all_companies_in_category;
