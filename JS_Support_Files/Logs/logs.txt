@@ -278,3 +278,11 @@ target language 'dg' unsupported in DB. By default output category names on Engl
 2022:01:18---21:31:42
 target language 'dg' unsupported in DB. By default output category names on English language
 
+"ERROR"
+2022:02:01---13:36:48
+Target document with _key 'aaaaad_category_marketing_in_social_web' in collection 'support_collections_info' doesnt exist
+
+"ERROR"
+2022:02:01---13:37:56
+Target document with _key 'aaaac' in collection 'group_categories' doesnt exist
+

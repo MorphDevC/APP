@@ -1,8 +1,8 @@
 'use strict';
 const db=require('@arangodb').db;
 const DBSFunctions = require('./DB_SupportFunctions');
-const Logs = require("./../DB_Support_Files/LogsManager.js");
-const SFn = require("./../SupportFunctions.js");
+const Logs = require("../JS_Support_Files/Logs/LogsManager.js");
+const SFn = require("../JS_Support_Files/SupportFiles/SupportFunctions.js");
 
 //1.8
 function returnable_get_shot_items_info_by_properties_and_company_names(req,res)

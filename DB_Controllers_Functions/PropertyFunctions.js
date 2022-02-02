@@ -1,9 +1,9 @@
 'use strict';
 const db=require('@arangodb').db;
 const DBSFunctions = require('./DB_SupportFunctions');
-const SFn = require("./../SupportFunctions.js");
-const Errors = require("./../DB_Support_Files/DB_Errors.js");
-const Logs = require("./../DB_Support_Files/LogsManager.js");
+const SFn = require("../JS_Support_Files/SupportFiles/SupportFunctions.js");
+const Errors = require("../JS_Support_Files/Logs/DB_Errors.js");
+const Logs = require("../JS_Support_Files/Logs/LogsManager.js");
 
 
 //3.3

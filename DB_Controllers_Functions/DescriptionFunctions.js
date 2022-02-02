@@ -1,8 +1,8 @@
 'use strict';
 const db=require('@arangodb').db;
 const DBSFunctions = require('./DB_SupportFunctions');
-const SFn = require("./../SupportFunctions.js");
-const Errors = require("./../DB_Support_Files/DB_Errors.js");
+const SFn = require("../JS_Support_Files/SupportFiles/SupportFunctions.js");
+const Errors = require("../JS_Support_Files/Logs/DB_Errors.js");
 
 // 4.3
 function returnable_update_item_description_in_one_language(req,res)

@@ -6,7 +6,7 @@ const db=require('@arangodb').db;
 const aql = require('@arangodb').aql;
 const dd = require('dedent');
 
-const sc=require('./DB_Support_Files/schemas.js')
+const sc=require('./JS_Support_Files/Schemas/schemas.js')
 
 const DBF_item = require('./DB_Controllers_Functions/ItemFunctions.js');
 const DBF_category = require('./DB_Controllers_Functions/CategoryFunctions');
@@ -317,6 +317,28 @@ router.post('/get_all_properties',DBF_property.get_all_properties)
     [
     "AAAAA_Category_Marketing_In_Social_Web",
         "en"
+    ]`);
+
+
+
+//2.9
+router.post('/swap_subcategory_assignment_to_main_category',DBF_category.swap_subcategory_assignment_to_main_category)
+    .body(sc.string, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+        "aaaaa_category_marketing_in_social_web",
+        "aaaaa"
+    ]`);
+
+//2.8
+router.post('/assign_subcategory_to_main_category',DBF_category.assign_subcategory_to_main_category)
+    .body(sc.string, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+        "aaaaa_category_marketing_in_social_web",
+        "aaaab"
     ]`);
 
 //2.7

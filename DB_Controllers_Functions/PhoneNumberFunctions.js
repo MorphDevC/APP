@@ -1,8 +1,8 @@
 'use strict';
 const db=require('@arangodb').db;
 const DBSFunctions = require('./DB_SupportFunctions');
-const SFn = require("./../SupportFunctions.js");
-const Logs = require("./../DB_Support_Files/LogsManager.js");
+const SFn = require("../JS_Support_Files/SupportFiles/SupportFunctions.js");
+const Logs = require("../JS_Support_Files/Logs/LogsManager.js");
 
 // // // 11.2
 function returnable_insert_update_phone_item(req,res)

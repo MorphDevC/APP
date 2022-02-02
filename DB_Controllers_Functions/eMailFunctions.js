@@ -1,7 +1,7 @@
 'use strict';
 const db=require('@arangodb').db;
 const DBSFunctions = require('./DB_SupportFunctions');
-const SFn = require("./../SupportFunctions.js");
+const SFn = require("../JS_Support_Files/SupportFiles/SupportFunctions.js");
 
 // // // //9.2
 function returnable_insert_update_email_item(req,res)

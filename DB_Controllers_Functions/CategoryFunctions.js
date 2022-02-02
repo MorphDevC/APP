@@ -1,10 +1,108 @@
 'use strict';
 const db=require('@arangodb').db;
 const DBSFunctions = require('./DB_SupportFunctions');
-const SFn = require("./../SupportFunctions.js");
-const Logs = require("./../DB_Support_Files/LogsManager.js");
-const Errors = require("./../DB_Support_Files/DB_Errors.js");
+const SFn = require("../JS_Support_Files/SupportFiles/SupportFunctions.js");
+const Logs = require("../JS_Support_Files/Logs/LogsManager.js");
+const Errors = require("../JS_Support_Files/Logs/DB_Errors.js");
+const UW=require("../JS_Support_Files/SupportFiles/UniqueWords.js")
 
+//2.9
+function returnable_swap_subcategory_assignment_to_main_category(req,res)
+{
+    const {0:target_key_sub_category,1:target_new_key_main_category,...other} = req.body;
+
+    let check_existing_sub_category = DBSFunctions.DoesDocumentExistsInTargetCollection(UW.word.collections.support_collections_info,target_key_sub_category)
+    let check_existing_main_category = DBSFunctions.DoesDocumentExistsInTargetCollection(UW.word.collections.group_categories,target_new_key_main_category)
+
+    if (check_existing_main_category===true && check_existing_sub_category===true)
+    {
+        const from_key = UW.word.collections.group_categories.concat("/",target_new_key_main_category);
+        const to_key = UW.word.collections.support_collections_info.concat("/",target_key_sub_category);
+
+        let is_sub_category_assigned_to_main_category = DBSFunctions.DoesDocumentExistsInTargetEdgeCollection(UW.word.collections.group_categories_edge,to_key,true);
+        if(is_sub_category_assigned_to_main_category ===true)
+        {
+
+            const {0:res}= db._query(
+                {
+                    query:`FOR cat IN group_categories_edge
+FILTER cat._to ==@target_sub_category
+UPDATE cat with {_from:@new_main_category_id} INTO group_categories_edge return NEW`,
+                    bindVars:
+                        {
+                            "target_sub_category": to_key,
+                            "new_main_category_id": from_key
+                        }
+                }
+            ).toArray()
+
+            return res;
+        }
+        else
+        {
+            return `SUB category ${target_key_sub_category} has been already assigned to MAIN category with key '${target_new_key_main_category}'`;
+        }
+    }
+    else
+    {
+        return `In target MAIN categories collection ${UW.word.collections.group_categories} doesnt exists document with key ${target_new_key_main_category}\n
+        or in target SUB categories collection ${UW.word.collections.group_categories} doesnt exists document with key ${target_key_sub_category} `
+    }
+}
+function swap_subcategory_assignment_to_main_category(req,res)
+{
+    let status =  returnable_swap_subcategory_assignment_to_main_category(req,res);
+    res.send(status);
+}
+
+
+//2.8
+function returnable_assign_subcategory_main_category(req,res)
+{
+    const {0:target_key_sub_category,1:target_key_main_category,...other} = req.body;
+
+    let check_existing_sub_category = DBSFunctions.DoesDocumentExistsInTargetCollection(UW.word.collections.support_collections_info,target_key_sub_category)
+    let check_existing_main_category = DBSFunctions.DoesDocumentExistsInTargetCollection(UW.word.collections.group_categories,target_key_main_category)
+
+    if (check_existing_main_category===true && check_existing_sub_category===true)
+    {
+        const from_key = UW.word.collections.group_categories.concat("/",target_key_main_category);
+        const to_key = UW.word.collections.support_collections_info.concat("/",target_key_sub_category);
+
+        let is_sub_category_assigned_to_main_category = DBSFunctions.DoesDocumentExistsInTargetEdgeCollection(UW.word.collections.group_categories_edge,to_key,true);
+        if(is_sub_category_assigned_to_main_category ===false)
+        {
+
+            const {0:res}= db._query(
+                {
+                    query:`INSERT {_from: @target_main_category_id, _to:@target_sub_category_id} INTO group_categories_edge return NEW`,
+                    bindVars:
+                        {
+                            "target_main_category_id": from_key,
+                            "target_sub_category_id": to_key
+                        }
+                }
+            ).toArray()
+
+            return res;
+        }
+        else
+        {
+            return `SUB category ${target_key_sub_category} has been already assigned to MAIN category`;
+        }
+    }
+    else
+    {
+        return `In target main categories collection ${UW.word.collections.group_categories} doesnt exists document with key ${target_key_main_category}\n
+        or in target sub categories collection ${UW.word.collections.group_categories} doesnt exists document with key ${target_key_sub_category} `
+    }
+}
+
+function assign_subcategory_to_main_category(req,res)
+{
+    let status = returnable_assign_subcategory_main_category(req,res);
+    res.send(status);
+}
 
 //2.7
 function returnable_get_all_companies_in_category(req,res)
@@ -335,3 +433,5 @@ module.exports.get_items_amount_of_category = get_items_amount_of_category;
 module.exports.get_all_items_in_category=get_all_items_in_category;
 module.exports.create_main_category = create_main_category;
 module.exports.get_all_companies_in_category=get_all_companies_in_category;
+module.exports.assign_subcategory_to_main_category=assign_subcategory_to_main_category;
+module.exports.swap_subcategory_assignment_to_main_category=swap_subcategory_assignment_to_main_category;

@@ -1,7 +1,7 @@
 'use strict';
 
-const Errors = require('./DB_Support_Files/DB_Errors')
-const Warnings = require('./DB_Support_Files/DB_Warnings')
+const Errors = require('../Logs/DB_Errors')
+const Warnings = require('../Logs/DB_Warnings')
 
 module.exports=
 {

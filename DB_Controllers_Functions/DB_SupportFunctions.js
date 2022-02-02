@@ -1,6 +1,6 @@
 'use strict';
-const Logs = require("./../DB_Support_Files/LogsManager.js");
-const SFn = require("./../SupportFunctions.js");
+const Logs = require("../JS_Support_Files/Logs/LogsManager.js");
+const SFn = require("../JS_Support_Files/SupportFiles/SupportFunctions.js");
 const db=require('@arangodb').db;
 
 function FreeKeys_UpdateOnINSERT(TargetCollection,InsertedKey)
@@ -59,6 +59,38 @@ function DoesDocumentExistsInTargetCollection(target_collection,target_key, expe
         return false
     }
 }
+
+function DoesDocumentExistsInTargetEdgeCollection(target_edge_collection,target_to_key, expected_response_is_false=false)
+{
+    if(target_edge_collection!=null && target_edge_collection!=="" && target_to_key!==null && target_to_key!=="")
+    {
+        const {0:res}= db._query(
+            {
+                query:`let doc = (for item in @@target_edge_collection
+filter item._to == @target_to_key return item)
+return count(doc)>0?
+true:
+false`,
+                bindVars:
+                    {
+                        "@target_edge_collection": target_edge_collection,
+                        "target_to_key": target_to_key
+                    }
+            }
+        ).toArray()
+        if(res ===false&&expected_response_is_false===false)
+        {
+            Logs.WriteLogMessage(`Target edge collection '${target_edge_collection} or target key '_to:${target_to_key}' doesnt exist. Check for correctness `)
+        }
+        return res
+    }
+    else
+    {
+        Logs.WriteLogMessage(`Target edge collection '${target_edge_collection} or target key '_to:${target_to_key}' doesnt exist. Check for correctness `)
+        return `Target edge collection '${target_edge_collection}' or target key '_to:${target_to_key}' doesnt exist. Check for correctness `
+    }
+}
+
 function DoesCollectionExists(target_collection)
 {
     if(target_collection!=null && target_collection!=="")
@@ -100,3 +132,4 @@ module.exports.INSERT_DocumentInCollection=INSERT_DocumentInCollection;
 module.exports.DoesDocumentExistsInTargetCollection=DoesDocumentExistsInTargetCollection;
 module.exports.DoesCollectionExists=DoesCollectionExists;
 module.exports.ViewUpdater=ViewUpdater;
+module.exports.DoesDocumentExistsInTargetEdgeCollection=DoesDocumentExistsInTargetEdgeCollection;

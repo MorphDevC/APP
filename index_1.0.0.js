@@ -5,11 +5,11 @@ const joi = require('joi');
 const db=require('@arangodb').db;
 const aql = require('@arangodb').aql;
 
-const SFn = require('./SupportFunctions.js')
-const Errors = require('./DB_Support_Files/DB_Errors.js')
-const Warnings = require('./DB_Support_Files/DB_Warnings.js')
-const Logs=require('./DB_Support_Files/LogsManager.js')
-const sc=require('./DB_Support_Files/schemas.js')
+const SFn = require('./JS_Support_Files/SupportFiles/SupportFunctions.js')
+const Errors = require('./JS_Support_Files/Logs/DB_Errors.js')
+const Warnings = require('./JS_Support_Files/Logs/DB_Warnings.js')
+const Logs=require('./JS_Support_Files/Logs/LogsManager.js')
+const sc=require('./JS_Support_Files/Schemas/schemas.js')
 const ItemPhone = require('./DB_Controllers_Functions/PhoneNumberFunctions.js')
 
 module.context.use(router);
