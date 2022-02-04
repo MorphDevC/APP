@@ -286,3 +286,33 @@ Target document with _key 'aaaaad_category_marketing_in_social_web' in collectio
 2022:02:01---13:37:56
 Target document with _key 'aaaac' in collection 'group_categories' doesnt exist
 
+"ERROR"
+2022:02:04---21:11:54
+Target document with _key '31' in collection 'aaaab_category_test_cat_1_on_en' doesnt exist
+
+"ERROR"
+2022:02:04---21:11:54
+There is no document in collection:'support_collections_info' with key:'aaaab_category_test_cat_1_on_en'.
+                
+Or target document doesnt exist in removable collection :aaaab_category_test_cat_1_on_en 
+
+"ERROR"
+2022:02:04---21:14:22
+Target document with _key '31' in collection 'aaaab_category_test_cat_1_on_en' doesnt exist
+
+"ERROR"
+2022:02:04---21:14:22
+There is no document in collection:'support_collections_info' with key:'aaaab_category_test_cat_1_on_en'.
+                
+Or target document doesnt exist in removable collection :aaaab_category_test_cat_1_on_en 
+
+"ERROR"
+2022:02:04---21:19:03
+Target document with _key '31' in collection 'aaaaa_category_marketing_in_social_web' doesnt exist
+
+"ERROR"
+2022:02:04---21:19:03
+There is no document in collection:'support_collections_info' with key:'aaaaa_category_marketing_in_social_web'.
+                
+Or target document doesnt exist in removable collection :aaaaa_category_marketing_in_social_web 
+

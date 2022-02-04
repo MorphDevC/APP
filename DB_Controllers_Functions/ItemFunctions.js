@@ -3,6 +3,41 @@ const db=require('@arangodb').db;
 const DBSFunctions = require('./DB_SupportFunctions');
 const Logs = require("../JS_Support_Files/Logs/LogsManager.js");
 const SFn = require("../JS_Support_Files/SupportFiles/SupportFunctions.js");
+const UW=require("../JS_Support_Files/SupportFiles/UniqueWords.js")
+
+//1.9
+function returnable_create_new_item(req,res)
+{
+    let {0:target_category_key,1:item_name,...other} = req.body
+    target_category_key = target_category_key?target_category_key.toLowerCase():null
+
+    //2.3.1
+    let doesSupportDocumentExist=  DBSFunctions.DoesDocumentExistsInTargetCollection(UW.word.collections.support_collections_info,target_category_key)
+    if(doesSupportDocumentExist===true)
+    {
+        const {0:free_key} = db._query(SFn.GetFreeIndex(target_category_key)).toArray(); //"Categories"
+        const {0:doc} = db._query(SFn.GetTemplateDocumentOfCollection(UW.word.word.Categories)).toArray();
+        let document_template =SFn.ParseDocument(doc,free_key)
+
+        DBSFunctions.INSERT_DocumentInCollection(document_template,free_key,target_category_key);
+        let m = db._query({
+                query: `
+                        UPDATE "${free_key}" WITH { name: "${item_name}" } IN @@ref_col_new
+                        `,
+                bindVars:
+                    {
+                        "@ref_col_new": target_category_key
+                    }
+            });
+
+        return "Item has been inserted"
+    }
+    else
+    {
+        Logs.WriteLogMessage(`There is no document in collection:'${target_category_key}' with key:'${target_category_key}'`)
+        return "Error"
+    }
+}
 
 //1.8
 function returnable_get_shot_items_info_by_properties_and_company_names(req,res)
@@ -45,7 +80,6 @@ return {
     return "error";
 
 }
-
 
 //1.7
 function returnable_get_items_by_company_name(req,res)
@@ -267,6 +301,12 @@ function returnable_get_item_name(req,res)
     }
 }
 
+function create_new_item(req,res)
+{
+    let item = returnable_create_new_item(req,res)
+    res.send(item)
+}
+
 function get_item_info(req,res)
 {
     let info = returnable_get_item_info(req);
@@ -305,3 +345,4 @@ module.exports.get_item_info = get_item_info;
 module.exports.get_short_item_info = get_short_item_info;
 module.exports.get_full_item_info = get_full_item_info;
 module.exports.get_items_by_properties_and_company_names = get_items_by_properties_and_company_names;
+module.exports.create_new_item = create_new_item;

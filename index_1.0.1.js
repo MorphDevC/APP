@@ -384,15 +384,15 @@ router.post('/get_items_amount_of_category',DBF_category.get_items_amount_of_cat
     ]`);
 
 //2.3
-router.post('/assignment_of_a_category_to_an_items',DBF_category.assignment_of_a_category_to_an_items)
+router.post('/swap_item_category',DBF_category.swap_item_category)
     .body(sc.string_number, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
+    [new_category, old_category, item_key]\n
     [
     "aaaaa_category_marketing_in_social_web",
-    null,
-    -1,
-        "Item_name"
+    "aaaab_category_test_cat_1_on_en",
+    31
     ]`);
 
 
@@ -420,6 +420,16 @@ router.post('/get_all_categories',DBF_category.get_all_categories)
     [
         "de"
     ]`);
+
+//1.9
+router.post('/create_new_item',DBF_item.create_new_item)
+    .body(sc.string, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+    "Item name N"
+]`);
 
 //1.8
 router.post('/get_items_by_properties_and_company_names',DBF_item.get_items_by_properties_and_company_names)

@@ -222,26 +222,21 @@ function get_items_amount_of_category(req,res)
 }
 
 //2.3
-function returnable_assignment_of_a_category_to_an_items(req,res)
+function returnable_swap_item_category(req,res)
 {
-    //let {0:item_key,1:item_name,2:old_category,3:new_category,...other} = req.body //old version
-    let {0:new_category,1:old_category,2:item_key,3:item_name,...other} = req.body
+    let {0:new_category,1:old_category,2:item_key,...other} = req.body
     old_category = old_category?old_category.toLowerCase():null
     new_category = new_category?new_category.toLowerCase():null
 
-    //2.3.1
-    let doesSupportDocumentExist=  DBSFunctions.DoesDocumentExistsInTargetCollection('support_collections_info',new_category)
+    let doesSupportDocumentExist=  DBSFunctions.DoesDocumentExistsInTargetCollection(UW.word.collections.support_collections_info,new_category)
     if(doesSupportDocumentExist===true)
     {
-        // 2.3.1
-        if(item_key>=1)
+        let doesTargetDocumentExist = DBSFunctions.DoesDocumentExistsInTargetCollection(old_category,item_key)
+        doesSupportDocumentExist = DBSFunctions.DoesDocumentExistsInTargetCollection(UW.word.collections.support_collections_info,old_category)
+        if (doesSupportDocumentExist===true && doesTargetDocumentExist===true)
         {
-            let doesTargetDocumentExist = DBSFunctions.DoesDocumentExistsInTargetCollection(old_category,item_key)
-            doesSupportDocumentExist = DBSFunctions.DoesDocumentExistsInTargetCollection('support_collections_info',old_category)
-            if (doesSupportDocumentExist===true && doesTargetDocumentExist===true)
-            {
-                const {0:free_key} = db._query(SFn.GetFreeIndex(new_category)).toArray();
-                let {0:doc} = db._query(
+            const {0:free_key} = db._query(SFn.GetFreeIndex(new_category)).toArray();
+            let {0:doc} = db._query(
                     {
                         query:`let doc= DOCUMENT(@@ref_old_coll,to_string(@ref_doc_key))
     return doc!=null?(return UNSET(doc||{},[]))[0]:
@@ -252,76 +247,58 @@ function returnable_assignment_of_a_category_to_an_items(req,res)
                                 "ref_doc_key": item_key
                             }
                     }
-                ).toArray()
+            ).toArray()
 
-                if(doc!=null)
-                {
-                    const property_collection = SFn.ReplaceWord(old_category,'category','properties')
-                    const item_id = old_category+'/'+item_key
-                    let m = db._query(
-                        {
-                            query:`remove '${item_key}' in @@ref_old_coll
+            if(doc!=null)
+            {
+                const property_collection = SFn.ReplaceWord(old_category,UW.word.word.category,UW.word.word.properties)
+                const item_id = old_category+'/'+item_key
+                let m = db._query(
+                    {
+                        query:`remove '${item_key}' in @@ref_old_coll
 
 for property in @@ref_old_properties_collection
 filter POSITION(property.IDs,@removable_item_id)
 update property with {IDs: remove_value(property.IDs,@removable_item_id)} in @@ref_old_properties_collection`,
-                            bindVars:
-                                {
-                                    "@ref_old_coll": old_category,
-                                    "@ref_old_properties_collection": property_collection,
-                                    "removable_item_id": item_id
-                                }
+                        bindVars: {
+                            "@ref_old_coll": old_category,
+                            "@ref_old_properties_collection": property_collection,
+                            "removable_item_id": item_id
                         }
-                    )
+                    })
                     DBSFunctions.FreeKeys_UpdateOnREMOVE(old_category,item_key)
 
                     doc = SFn.ClearItemProperties(doc)
                     let insertable_document = SFn.ParseDocument(doc,free_key)
                     DBSFunctions.INSERT_DocumentInCollection(insertable_document,free_key,new_category)
 
-                    console.log("succeed")
+                    return "succeed"
                 }
-                else
-                {
-                    Logs.WriteLogMessage(`Document with _key '${item_key}' in category '${old_category}' does not exist`)
-                }
-            }
             else
             {
-                Logs.WriteLogMessage(`There is no document in collection:'support_collections_info' with key:'${old_category}'.
-                \nOr target document doesnt exist in removable collection :${old_category} `)
+                Logs.WriteLogMessage(`Document with _key '${item_key}' in category '${old_category}' does not exist`)
+                return `Document with _key '${item_key}' in category '${old_category}' does not exist`
             }
         }
-        // 2.3.2
         else
         {
-            const {0:free_key} = db._query(SFn.GetFreeIndex(new_category)).toArray();
-            const {0:doc} = db._query(SFn.GetTemplateDocumentOfCollection("Categories") ).toArray();
-            let document_template =SFn.ParseDocument(doc,free_key)
+            Logs.WriteLogMessage(`There is no document in collection:'support_collections_info' with key:'${old_category}'.
+                \nOr target document doesnt exist in removable collection :${old_category} `)
 
-            DBSFunctions.INSERT_DocumentInCollection(document_template,free_key,new_category);
-            let m = db._query({
-                query: `
-                        UPDATE "${free_key}" WITH { name: "${item_name}" } IN @@ref_col_new
-                        `,
-                bindVars:
-                    {
-                        "@ref_col_new": new_category
-                    }
-            });
-
-            return "return smth in assignment_of_a_category_to_an_items"
+            return `There is no document in collection:'support_collections_info' with key:'${old_category}'.
+                \nOr target document doesnt exist in removable collection :${old_category} `
         }
     }
     else
     {
-        Logs.WriteLogMessage(`There is no document in collection:'${new_category}' with key:'${new_category}'`)
+        Logs.WriteLogMessage(`There is no document in collection:'${UW.word.collections.support_collections_info}' with key:'${new_category}'`)
+        return `There is no document in collection:'${UW.word.collections.support_collections_info}' with key:'${new_category}'`
     }
 }
-function assignment_of_a_category_to_an_items(req,res)
+function swap_item_category(req,res)
 {
-    let someVar = returnable_assignment_of_a_category_to_an_items(req,res)
-    //send if needable
+    let someVar = returnable_swap_item_category(req,res)
+    res.send(someVar)
 }
 
 // 2.2
@@ -426,7 +403,7 @@ function get_all_categories(req,res)
     res.send(categories)
 }
 
-module.exports.assignment_of_a_category_to_an_items = assignment_of_a_category_to_an_items;
+module.exports.swap_item_category = swap_item_category;
 module.exports.create_new_category = create_new_category;
 module.exports.get_all_categories = get_all_categories;
 module.exports.get_items_amount_of_category = get_items_amount_of_category;

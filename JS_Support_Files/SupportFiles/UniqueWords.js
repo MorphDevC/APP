@@ -1,7 +1,8 @@
 const DB_unique_words={
     word:{
         category:'category',
-        properties:'properties'
+        properties:'properties',
+        Categories:'Categories'
     },
     collections:{
         group_categories:'group_categories',
