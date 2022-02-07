@@ -320,6 +320,14 @@ router.post('/get_all_properties',DBF_property.get_all_properties)
     ]`);
 
 
+//2.9
+router.post('/get_all_categories',DBF_category.get_all_categories)
+    .body(sc.string, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+        "en"
+    ]`);
 
 //2.9
 router.post('/swap_subcategory_assignment_to_main_category',DBF_category.swap_subcategory_assignment_to_main_category)
@@ -413,7 +421,7 @@ router.post('/create_new_category',DBF_category.create_new_category)
 
 
 //2.1
-router.post('/get_all_categories',DBF_category.get_all_categories)
+router.post('/get_all_sub_categories',DBF_category.get_all_sub_categories)
     .body(sc.string, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n

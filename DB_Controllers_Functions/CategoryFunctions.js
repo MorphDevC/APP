@@ -6,6 +6,41 @@ const Logs = require("../JS_Support_Files/Logs/LogsManager.js");
 const Errors = require("../JS_Support_Files/Logs/DB_Errors.js");
 const UW=require("../JS_Support_Files/SupportFiles/UniqueWords.js")
 
+function returnable_get_all_categories(req,res)
+{
+    const {0:target_language,...other} = req.body;
+    const result= db._query(
+        {
+            query:`FOR vertex IN @@target_group_categories_collection
+LET categories_info =(    
+    FOR v, e, p IN 1..2 OUTBOUND vertex @@target_graph_categories_collection
+    COLLECT main_cat = p.vertices[0].name INTO otherInfo
+    LET category_name_key = (
+        FOR category_name IN otherInfo[*].v.name[@target_language] 
+        LET pos = POSITION(otherInfo[*].v.name[@target_language], category_name, true)
+        RETURN [category_name, NTH(otherInfo[*].v._key,pos)]) 
+    RETURN [main_cat[@target_language],category_name_key]
+        )
+RETURN categories_info[0]`,
+            bindVars:
+                {
+                    "@target_group_categories_collection": UW.word.collections.group_categories,
+                    "@target_graph_categories_collection": UW.word.collections.group_categories_edge,
+                    "target_language": target_language
+                }
+        }
+    ).toArray()
+    return result
+
+}
+
+function get_all_categories(req,res)
+{
+    let categories = returnable_get_all_categories(req,res)
+    res.send(categories)
+}
+
+
 //2.9
 function returnable_swap_subcategory_assignment_to_main_category(req,res)
 {
@@ -370,7 +405,7 @@ function create_new_category(req,res)
 
 
 //2.1
-function returnable_get_all_categories(req,res)
+function returnable_get_all_sub_categories(req,res)
 {
     // 2.1
     let {0:target_language,...other} = req.body
@@ -397,18 +432,19 @@ concat("Missing category name '",c.name['en'], "' on language: '",@target_langua
     return cats
 
 }
-function get_all_categories(req,res)
+function get_all_sub_categories(req,res)
 {
-    let categories = returnable_get_all_categories(req,res);
+    let categories = returnable_get_all_sub_categories(req,res);
     res.send(categories)
 }
 
 module.exports.swap_item_category = swap_item_category;
 module.exports.create_new_category = create_new_category;
-module.exports.get_all_categories = get_all_categories;
+module.exports.get_all_sub_categories = get_all_sub_categories;
 module.exports.get_items_amount_of_category = get_items_amount_of_category;
 module.exports.get_all_items_in_category=get_all_items_in_category;
 module.exports.create_main_category = create_main_category;
 module.exports.get_all_companies_in_category=get_all_companies_in_category;
 module.exports.assign_subcategory_to_main_category=assign_subcategory_to_main_category;
 module.exports.swap_subcategory_assignment_to_main_category=swap_subcategory_assignment_to_main_category;
+module.exports.get_all_categories = get_all_categories;

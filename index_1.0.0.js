@@ -1247,7 +1247,7 @@ update {name:merge(OLD.name,@property_names)} in support_collections_info return
 
 
 //2.1
-router.post('/get_all_categories',function(req,res)
+router.post('/get_all_sub_categories',function(req,res)
 {
     // 2.1
 
@@ -1288,7 +1288,7 @@ concat("Missing category name '",c.name['en'], "' on language: '",@target_langua
 // [
 //     "dg"
 // ]
-// get_all_categories(req)
+// get_all_sub_categories(req)
 
 //1.2
 router.post('/Update_Item_Name',function(req,res)
