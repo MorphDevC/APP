@@ -78,7 +78,7 @@ function returnable_insert_item_in_new_prop(req,res)
 }
 
 // // 3.2
-function returnable_insert_new_property_in_properties_collection(req,res)
+function returnable_create_new_property_in_properties_collection(req,res)
 {
     let {0:target_category,1:insertable_property_names,...other}= req
     target_category=target_category.toLowerCase()
@@ -153,9 +153,9 @@ function insert_item_in_new_prop(req,res)
     let someVar = returnable_insert_item_in_new_prop(req,res);
     //res.send(someVar)
 }
-function insert_new_property_in_properties_collection(req,res)
+function create_new_property_in_properties_collection(req,res)
 {
-    let someVar = returnable_insert_new_property_in_properties_collection(req,res);
+    let someVar = returnable_create_new_property_in_properties_collection(req,res);
     //res.send(someVar)
 }
 function get_all_properties(req,res)
@@ -165,5 +165,5 @@ function get_all_properties(req,res)
 }
 
 module.exports.insert_item_in_new_prop = insert_item_in_new_prop;
-module.exports.insert_new_property_in_properties_collection = insert_new_property_in_properties_collection;
+module.exports.create_new_property_in_properties_collection = create_new_property_in_properties_collection;
 module.exports.get_all_properties=get_all_properties;

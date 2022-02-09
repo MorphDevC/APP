@@ -293,7 +293,7 @@ router.post('/insert_item_in_new_prop',DBF_property.insert_item_in_new_prop)
     ]`);
 
 // // 3.2
-router.post('/insert_new_property_in_properties_collection',DBF_property.insert_new_property_in_properties_collection)
+router.post('/create_new_property_in_properties_collection',DBF_property.create_new_property_in_properties_collection)
     .body(sc.object_string, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
