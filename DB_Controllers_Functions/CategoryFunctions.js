@@ -342,7 +342,7 @@ function returnable_create_new_category(req,res)
     const {0:category_names,...other} = req.body;
     if (Errors.ObjectChecks.ObjectHasProperty(category_names)===true) // Defense if there is no english name
     {
-        const {0:prefixQueryResult}=db._query(`LET tempCol = collections()[*FILTER LIKE(CURRENT.name,"_____\\\\_%") RETURN CURRENT.name]
+        const {0:prefixQueryResult}=db._query(`LET tempCol = collections()[*FILTER LIKE(CURRENT.name,"_____\\\\_category%") RETURN CURRENT.name]
 // '_' должно быть столько, сколько букв в префиксе
 // выибираем только те коллекции, у которых есть префикс (AAAAZ_...)
 
@@ -354,29 +354,24 @@ LET temp_pref =
 LET count_cols = tempCol[* FILTER LIKE(CURRENT,concat(temp_pref[0],"_%"))]
 
 //Если коллекций 2, то возвращаем префикс, иначе ошибка
-RETURN count(count_cols) == 2 ?
-{"Prefix":temp_pref[0]}:
-{"Prefix":CONCAT("Missing 1 of collection WITH prefixe: '",temp_pref[0],"'. Please contact with DB admin and check collections")}`
+RETURN {"Prefix":temp_pref[0]}`
         ).toArray()
         let currentPrefix = prefixQueryResult[Object.keys(prefixQueryResult)]
+        let categoryCollectionName = SFn.ReplaceSpacesToUnderscore(category_names.en.toLowerCase(),true)
+        const next_prefix = SFn.CreateNewPrefix(currentPrefix)
 
-        if (currentPrefix.length === 5)
-        {
-            let categoryCollectionName = SFn.ReplaceSpacesToUnderscore(category_names.en.toLowerCase(),true)
-            const next_prefix = SFn.CreateNewPrefix(currentPrefix)
+        const {0:template_to_parse} = db._query(SFn.GetTemplateDocumentOfCollection("support_collections_info") ).toArray();
 
-            const {0:template_to_parse} = db._query(SFn.GetTemplateDocumentOfCollection("support_collections_info") ).toArray();
+        const new_category_collection_name=`${next_prefix}_category_${categoryCollectionName}`
+        const new_property_collection_name=`${next_prefix}_properties_${categoryCollectionName}`
 
-            const new_category_collection_name=`${next_prefix}_category_${categoryCollectionName}`
-            const new_property_collection_name=`${next_prefix}_properties_${categoryCollectionName}`
-
-            let document_template =SFn.ParseDocument(template_to_parse,new_category_collection_name,true)
+        let document_template =SFn.ParseDocument(template_to_parse,new_category_collection_name,true)
 
 
-            db._createDocumentCollection(new_category_collection_name)
-            db._createDocumentCollection(new_property_collection_name)
+        db._createDocumentCollection(new_category_collection_name)
+        db._createDocumentCollection(new_property_collection_name)
 
-            const m = db._query(
+        const m = db._query(
                 {
                     query:`for i in 1..2
 upsert {_key:to_string(@property_key)}
@@ -388,10 +383,8 @@ update {name:merge(OLD.name,@property_names)} in support_collections_info return
                             "property_names": category_names
                         }
                 }).toArray()
-            DBSFunctions.ViewUpdater(new_category_collection_name)
-
-            return true;
-        } else {Logs.WriteLogMessage(currentPrefix)}
+        DBSFunctions.ViewUpdater(new_category_collection_name)
+        return true;
     }
 
 }
