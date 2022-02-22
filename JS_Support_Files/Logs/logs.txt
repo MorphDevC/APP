@@ -316,3 +316,31 @@ There is no document in collection:'support_collections_info' with key:'aaaaa_ca
                 
 Or target document doesnt exist in removable collection :aaaaa_category_marketing_in_social_web 
 
+"WARNING"
+2022:02:18---16:04:01
+Document already exist
+
+"WARNING"
+2022:02:18---16:04:40
+Document already exist
+
+"WARNING"
+2022:02:18---16:04:42
+Document already exist
+
+"WARNING"
+2022:02:18---16:04:43
+Document already exist
+
+"WARNING"
+2022:02:18---16:04:44
+Document already exist
+
+"WARNING"
+2022:02:18---16:05:53
+Document already exist
+
+"WARNING"
+2022:02:18---16:06:08
+Document already exist
+

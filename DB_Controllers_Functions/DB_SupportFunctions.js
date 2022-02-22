@@ -60,6 +60,35 @@ function DoesDocumentExistsInTargetCollection(target_collection,target_key, expe
     }
 }
 
+function DoesPropertyExistsInTargetCollection(target_collection,target_key, expected_response_is_false=false)
+{
+    if(target_collection!=null && target_collection!=="" && target_key!==null && target_key!=="")
+    {
+        const {0:res}= db._query(
+            {
+                query:`let propertyExists = (for prefix in properties_options
+return document(@@target_properties_collection,CONCAT(prefix._key,":",@target_property_name)) !=null)
+return position(propertyExists, true)`,
+                bindVars:
+                    {
+                        "@target_properties_collection": target_collection,
+                        "target_property_name": target_key
+                    }
+            }
+        ).toArray()
+        if(res ===false&&expected_response_is_false===false)
+        {
+            Logs.WriteLogMessage(`Target document with _key '${target_key}' in collection '${target_collection}' doesnt exist`)
+        }
+        return res
+    }
+    else
+    {
+        Logs.WriteLogMessage(`Target collection '${target_collection}' or target key '${target_key}' doesnt exist. Check for correctness`)
+        return false
+    }
+}
+
 function DoesDocumentExistsInTargetEdgeCollection(target_edge_collection,target_to_key, expected_response_is_false=false)
 {
     if(target_edge_collection!=null && target_edge_collection!=="" && target_to_key!==null && target_to_key!=="")
@@ -133,3 +162,4 @@ module.exports.DoesDocumentExistsInTargetCollection=DoesDocumentExistsInTargetCo
 module.exports.DoesCollectionExists=DoesCollectionExists;
 module.exports.ViewUpdater=ViewUpdater;
 module.exports.DoesDocumentExistsInTargetEdgeCollection=DoesDocumentExistsInTargetEdgeCollection;
+module.exports.DoesPropertyExistsInTargetCollection = DoesPropertyExistsInTargetCollection;

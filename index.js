@@ -274,6 +274,13 @@ router.post('/get_item_description',DBF_description.get_item_description)
 
 ]`);
 
+//3.4 get_properties_prefixes
+router.post('/get_properties_prefixes',DBF_property.get_properties_prefixes)
+    .body(sc.string, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    there is no input test`);
+
 //3.3
 router.post('/insert_item_in_new_prop',DBF_property.insert_item_in_new_prop)
     .body(sc.string_number_array, 'This body will be a string.')
@@ -298,7 +305,8 @@ router.post('/create_new_property_in_properties_collection',DBF_property.create_
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
     [
-    "AAAAA_Category_Marketing_In_Social_Web",
+    "aaaaa_category_marketing_in_social_web",
+    "zx",
     {
         "de":"Property name on German from JS",
         "en":"Property name on English from JS",

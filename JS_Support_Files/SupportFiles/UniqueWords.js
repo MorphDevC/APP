@@ -7,7 +7,8 @@ const DB_unique_words={
     collections:{
         group_categories:'group_categories',
         support_collections_info:'support_collections_info',
-        group_categories_edge:'group_categories_edge'
+        group_categories_edge:'group_categories_edge',
+        properties_options:'properties_options'
     }
 }
 

@@ -4,7 +4,26 @@ const DBSFunctions = require('./DB_SupportFunctions');
 const SFn = require("../JS_Support_Files/SupportFiles/SupportFunctions.js");
 const Errors = require("../JS_Support_Files/Logs/DB_Errors.js");
 const Logs = require("../JS_Support_Files/Logs/LogsManager.js");
+const UW = require("../JS_Support_Files/SupportFiles/UniqueWords.js")
 
+
+// 3.4
+function returnable_get_properties_prefixes(req,res)
+{
+    //for prefix in properties_options
+    // return [prefix.name,prefix._key]
+    let k =db._query(
+        {
+            query:`for prefix in @@properties_options_collection
+return [prefix.name,prefix._key]`,
+            bindVars:
+                {
+                    "@properties_options_collection": UW.word.collections.properties_options,
+                }
+        }
+    )
+    return k
+}
 
 //3.3
 function returnable_insert_item_in_new_prop(req,res)
@@ -80,7 +99,7 @@ function returnable_insert_item_in_new_prop(req,res)
 // // 3.2
 function returnable_create_new_property_in_properties_collection(req,res)
 {
-    let {0:target_category,1:insertable_property_names,...other}= req
+    let {0:target_category,1:option,2:insertable_property_names,...other}= req.body
     target_category=target_category.toLowerCase()
 
     const property_collection = SFn.ReplaceWord(target_category,'category','properties')
@@ -88,13 +107,14 @@ function returnable_create_new_property_in_properties_collection(req,res)
 
     if (Errors.ObjectChecks.ObjectHasProperty(insertable_property_names)) // Defence if key is null
     {
-        const property_key = SFn.ReplaceSpacesToUnderscore(insertable_property_names.en.toLowerCase())
-        const doesPropertyExist=  DBSFunctions.DoesDocumentExistsInTargetCollection(property_collection,property_key,true)
+        let property_key = SFn.ReplaceSpacesToUnderscore(insertable_property_names.en.toLowerCase())
+        const doesPropertyExist=  DBSFunctions.DoesPropertyExistsInTargetCollection(property_collection,property_key,true)
+        const doesOptionExist =  DBSFunctions.DoesDocumentExistsInTargetCollection("properties_options",option)
 
-
-        if(doesPropertyExist===false) // defence if document is exist
+        if(doesPropertyExist===false && doesOptionExist ===true) // defence if document is exist
         {
-            let document_template =SFn.ParseDocument(template_to_parse,insertable_property_names.en,true)
+            property_key = option.concat(":",property_key);
+            let document_template =SFn.ParseDocument(template_to_parse,property_key,true)
 
             let k =db._query(
                 {
@@ -116,6 +136,7 @@ update {name:merge(OLD.name,@property_names)} in @@target_properties_collection 
         else
         {
             Logs.WriteLogMessage("Document already exist",true)
+            return false;
         }
     }
 }
@@ -148,6 +169,13 @@ RETURN property.name[@target_language]=="" || property.name[@target_language]==n
     return props
 }
 
+
+function get_properties_prefixes(req,res)
+{
+    let prefixes = returnable_get_properties_prefixes(req,res);
+    res.send(prefixes);
+}
+
 function insert_item_in_new_prop(req,res)
 {
     let someVar = returnable_insert_item_in_new_prop(req,res);
@@ -155,8 +183,8 @@ function insert_item_in_new_prop(req,res)
 }
 function create_new_property_in_properties_collection(req,res)
 {
-    let someVar = returnable_create_new_property_in_properties_collection(req,res);
-    //res.send(someVar)
+    let success = returnable_create_new_property_in_properties_collection(req,res);
+    res.send(success)
 }
 function get_all_properties(req,res)
 {
@@ -164,6 +192,7 @@ function get_all_properties(req,res)
     res.send(someVar)
 }
 
+module.exports.get_properties_prefixes = get_properties_prefixes;
 module.exports.insert_item_in_new_prop = insert_item_in_new_prop;
 module.exports.create_new_property_in_properties_collection = create_new_property_in_properties_collection;
 module.exports.get_all_properties=get_all_properties;
