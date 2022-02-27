@@ -224,6 +224,7 @@ return {
     phone: target_item.phone ? : '000',
     description: target_item.description[@targetLanguage],
     images: target_item.images,
+    email: target_item.email,
     properties: (for itemProp in target_item.properties
                     for prop in @@target_properties_collection
                     filter itemProp==prop._key return prop.name[@targetLanguage])
