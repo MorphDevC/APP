@@ -5,7 +5,7 @@ const DBSFunctions = require('./DB_SupportFunctions');
 // ////10.2
 function returnable_insert_update_organization_name_item(req,res)
 {
-    let {0:item_category,1:item_key,2:new_organization_name_item,...other} = req.body
+    let {0:item_category,1:new_organization_name_item,2:item_key,...other} = req.body
 
     item_category = item_category?item_category.toLowerCase():null
     const doesTargetDocumentExist = DBSFunctions.DoesDocumentExistsInTargetCollection(item_category,item_key)

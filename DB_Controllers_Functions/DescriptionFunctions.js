@@ -7,7 +7,7 @@ const Errors = require("../JS_Support_Files/Logs/DB_Errors.js");
 // 4.3
 function returnable_update_item_description_in_one_language(req,res)
 {
-    let {0:item_category,1:item_key,2:target_language,3:new_description,...other} = req.body
+    let {0:item_category,1:target_language,2:new_description,3:item_key,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
     target_language = SFn.GetTargetLanguageDefence(target_language)
     new_description = new_description!=null&&new_description!==""?new_description:`Description on '${target_language}' language is missing`
@@ -62,7 +62,7 @@ in @@target_category`,
 // 4.1
 function returnable_get_item_description(req,res)
 {
-    let {0:item_category,1:item_key,2:target_language,...other} = req.body
+    let {0:item_category,1:target_language,2:item_key,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
     target_language = SFn.GetTargetLanguageDefence(target_language)
 

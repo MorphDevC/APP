@@ -37,8 +37,8 @@ router.post( '/insert_update_phone_item',DBF_phone.insert_update_phone_item)
     .description(dd`Test
     [
         "aaaaa_category_marketing_in_social_web",
-        2,
-        "+7 916-680-77-64"
+        "+7 916-680-77-64",
+        2
     ]`
     );
 
@@ -59,8 +59,8 @@ router.post('/insert_update_organization_name_item' ,DBF_organizationName.insert
     .description(dd`Test input\n
     [
     "aaaaa_category_marketing_in_social_web",
-    2,
-        "OWLM organization name"
+    "OWLM organization name",
+    2
     ]`);
 
 
@@ -81,8 +81,8 @@ router.post('/insert_update_email_item',DBF_eMail.insert_update_email_item)
     .description(dd`Test input\n
     [
     "aaaaa_category_marketing_in_social_web",
+    "OWLM_eMail@gmail.com",
     2,
-        "OWLM_eMail@gmail.com"
     ]`);
 
 
@@ -103,8 +103,8 @@ router.post('/insert_update_company_name_item',DBF_companyName.insert_update_com
     .description(dd`Test input\n
     [
     "aaaaa_category_marketing_in_social_web",
-    2,
-        "OWLM"
+    "OWLM",
+    2
     ]`);
 
 // // // 8.1
@@ -239,9 +239,9 @@ router.post('/update_item_description_in_one_language',DBF_description.update_it
     .description(dd`Test input\n
     [
     "AAAAA_Category_Marketing_In_Social_Web",
-    2,
     "ru",
-    "New description"   
+    "New description"
+    2,  
 
 ]`);
 
@@ -269,9 +269,8 @@ router.post('/get_item_description',DBF_description.get_item_description)
     .description(dd`Test input\n
     [
     "AAAAA_Category_Marketing_In_Social_Web",
-    2,
-    "ru"    
-
+    "ru",
+    2  
 ]`);
 
 //3.4 get_properties_prefixes

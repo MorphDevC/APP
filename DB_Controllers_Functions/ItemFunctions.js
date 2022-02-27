@@ -244,7 +244,7 @@ return {
 //1.2
 function returnable_update_item_name(req,res)
 {
-    let {0:item_category,1:item_key,2:new_item_name,...other} = req.body
+    let {0:item_category,1:new_item_name,2:item_key,...other} = req.body
 
     item_category = item_category?item_category.toLowerCase():null
     const doesTargetDocumentExist = DBSFunctions.DoesDocumentExistsInTargetCollection(item_category,item_key)
