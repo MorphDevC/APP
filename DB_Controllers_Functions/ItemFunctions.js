@@ -227,7 +227,7 @@ return {
     email: target_item.email,
     properties: (for itemProp in target_item.properties
                     for prop in @@target_properties_collection
-                    filter itemProp==prop._key return prop.name[@targetLanguage])
+                    filter itemProp==prop._key return concat(left(prop._key,2),":",prop.name[@targetLanguage]))
 }`,
                 bindVars:
                     {
