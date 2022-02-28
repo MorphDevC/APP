@@ -17,7 +17,7 @@ function returnable_insert_update_organization_name_item(req,res)
         const{0:result} = db._query(
             {
                 query:`update {_key:to_string(@item_key)} with {organization_name:@new_org_name}
-in @@target_collection return NEW.organization_name`,
+in @@target_collection return {organization_name:NEW.organization_name,_key:NEW._key}`,
                 bindVars:
                     {
                         "item_key": item_key,
@@ -56,8 +56,8 @@ function returnable_get_organization_name_item(req,res)
 
 function insert_update_organization_name_item(req,res)
 {
-    let someVar = returnable_insert_update_organization_name_item(req,res);
-    //res.send(someVar)
+    let updatedOrganizationName = returnable_insert_update_organization_name_item(req,res);
+    res.send(updatedOrganizationName)
 }
 function get_organization_name_item(req,res)
 {

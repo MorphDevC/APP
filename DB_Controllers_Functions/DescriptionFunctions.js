@@ -4,6 +4,36 @@ const DBSFunctions = require('./DB_SupportFunctions');
 const SFn = require("../JS_Support_Files/SupportFiles/SupportFunctions.js");
 const Errors = require("../JS_Support_Files/Logs/DB_Errors.js");
 
+
+function returnable_get_item_description_in_every_language(req,res)
+{
+    let {0:item_category,1:item_key,...other} = req.body
+
+    item_category = item_category?item_category.toLowerCase():null
+    const doesTargetDocumentExist = DBSFunctions.DoesDocumentExistsInTargetCollection(item_category,item_key)
+    if(doesTargetDocumentExist===true)
+    {
+        const{0:result} = db._query(
+            {
+                query:`let target_item = document(@@target_collection,to_string(@target_item))
+return target_item.description`,
+                bindVars:
+                    {
+                        "target_item": item_key,
+                        "@target_collection": item_category
+                    }
+            }
+        ).toArray()
+
+        return result
+    }
+}
+
+function get_item_description_in_every_language(req,res)
+{
+    let description = returnable_get_item_description_in_every_language(req,res);
+    res.send(description);
+}
 // 4.3
 function returnable_update_item_description_in_one_language(req,res)
 {
@@ -26,14 +56,14 @@ in @@target_category return NEW`,
                 }
         }
     )
-    return `document ${item_category}/${item_key} description in ${target_language} was updated with text ${new_description}`
+    return
 }
 
 
 // 4.2
 function returnable_update_item_description_in_every_language(req,res)
 {
-    let {0:item_category,1:item_key,2:description,...other} = req.body
+    let {0:item_category,1:description,2:item_key,...other} = req.body
     item_category = item_category?item_category.toLowerCase():null
 
     if(Errors.ObjectChecks.ObjectHasProperty(description)===true)
@@ -54,7 +84,8 @@ in @@target_category`,
                         }
                 }
             )
-           return "Description updated"
+            req.body = [item_category,item_key];
+            return returnable_get_item_description_in_every_language(req,null)
         }
     }
 }
@@ -95,8 +126,8 @@ function update_item_description_in_one_language(req,res)
 }
 function update_item_description_in_every_language(req,res)
 {
-    let someVar = returnable_update_item_description_in_every_language(req,res);
-    // res.send(someVar)
+    let updatedDescription = returnable_update_item_description_in_every_language(req,res);
+    res.send(updatedDescription)
 }
 function get_item_description(req,res)
 {

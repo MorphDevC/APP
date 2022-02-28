@@ -14,7 +14,7 @@ function returnable_insert_update_company_name_item(req,res)
         const{0:result} = db._query(
             {
                 query:`update {_key:to_string(@item_key)} with {company_name:@new_company_name}
-in @@target_collection return NEW.company_name`,
+in @@target_collection return {company_name:NEW.company_name,_key:NEW._key}`,
                 bindVars:
                     {
                         "item_key": item_key,
@@ -29,8 +29,8 @@ in @@target_collection return NEW.company_name`,
 
 function insert_update_company_name_item(req,res)
 {
-    let someVar = returnable_insert_update_company_name_item(req,res)
-    //res.send(someVar)
+    let updatedCompanyName = returnable_insert_update_company_name_item(req,res)
+    res.send(updatedCompanyName)
 }
 // // // 8.1
 function returnable_get_company_name_item(req,res)
@@ -58,7 +58,7 @@ function returnable_get_company_name_item(req,res)
 function get_company_name_item(req,res)
 {
     let someVar = returnable_get_company_name_item(req,res)
-    //res.send(someVar)
+    res.send(someVar)
 }
 
 

@@ -22,7 +22,7 @@ function returnable_insert_update_phone_item(req,res)
             const {0: result} = db._query(
                 {
                     query: `update {_key:to_string(@item_key)} with {phone:@new_phone_number}
-in @@target_collection return NEW.phone`,
+in @@target_collection return {phone:NEW.phone, _key:NEW._key}`,
                     bindVars:
                         {
                             "item_key": item_key,
@@ -66,7 +66,7 @@ function returnable_get_phone_item(req,res)
 function insert_update_phone_item(req,res)
 {
     let someVar = returnable_insert_update_phone_item(req,res);
-    //res.send(someVar)
+    res.send(someVar)
 }
 function get_phone_item(req,res)
 {

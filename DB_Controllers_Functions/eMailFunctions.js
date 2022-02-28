@@ -19,7 +19,7 @@ function returnable_insert_update_email_item(req,res)
         const{0:result} = db._query(
             {
                 query:`update {_key:to_string(@item_key)} with {email:@new_email}
-in @@target_collection return NEW.email`,
+in @@target_collection return {email:NEW.email,_key:NEW._key}`,
                 bindVars:
                     {
                         "item_key": item_key,
@@ -59,7 +59,7 @@ function returnable_get_email_item(req,res)
 function insert_update_email_item(req,res)
 {
     let someVar =   returnable_insert_update_email_item(req,res);
-    // res.send(someVar)
+    res.send(someVar)
 }
 
 function get_email_item(req,res)
