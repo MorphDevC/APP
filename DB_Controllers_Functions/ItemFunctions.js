@@ -5,6 +5,12 @@ const Logs = require("../JS_Support_Files/Logs/LogsManager.js");
 const SFn = require("../JS_Support_Files/SupportFiles/SupportFunctions.js");
 const UW=require("../JS_Support_Files/SupportFiles/UniqueWords.js")
 
+//1.10
+function returnable_get_items_by_search_filter(req,res)
+{
+
+}
+
 //1.9
 function returnable_create_new_item(req,res)
 {

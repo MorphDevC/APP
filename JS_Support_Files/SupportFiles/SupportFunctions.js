@@ -152,7 +152,7 @@ null`
                 {
                 [collection]:
                     {
-                        "includeAllFields":false,
+                        "includeAllFields":true,
                         "analyzers":
                             [
                                 "identity",
@@ -160,11 +160,7 @@ null`
                             ],
                         "fields":
                             {
-                                "name": {
-                                     "analyzers": [
-                                         "text_en",
-                                         "identity"]
-                                        }
+
                             }
                     }
                 }}
