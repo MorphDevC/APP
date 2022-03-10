@@ -52,6 +52,15 @@ router.post('/get_phone_item', DBF_phone.get_phone_item)
         2
     ]`);
 
+router.post('/get_phone_item2', DBF_phone.get_phone_item)
+    .body(sc.string_number, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "aaaaa_category_marketing_in_social_web",
+        2
+    ]`);
+
 // ////10.2
 router.post('/insert_update_organization_name_item' ,DBF_organizationName.insert_update_organization_name_item)
     .body(sc.string_number, 'This body will be a string.')
