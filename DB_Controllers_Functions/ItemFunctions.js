@@ -4,11 +4,38 @@ const DBSFunctions = require('./DB_SupportFunctions');
 const Logs = require("../JS_Support_Files/Logs/LogsManager.js");
 const SFn = require("../JS_Support_Files/SupportFiles/SupportFunctions.js");
 const UW=require("../JS_Support_Files/SupportFiles/UniqueWords.js")
+const {get_main_logo_item} = require("./MainLogoFunctions");
 
 //1.10
-function returnable_get_items_by_search_filter(req,res)
+function returnable_global_search(req,res)
 {
+    let {0:target_string,...other} = req.body
+    target_string = target_string?target_string.toLowerCase():null
 
+    console.log(target_string)
+    let m = db._query({
+        query: `
+        for item in categories
+        SEARCH ANALYZER(
+    LIKE(item.company_name,CONCAT('%',@input_search_string,'%'))
+    ||
+    LIKE(item.name,CONCAT('%',@input_search_string,'%'))
+    ,"segment_alpha")
+    return split(item._id,'/')
+        `,
+        bindVars:
+            {
+                "input_search_string": target_string
+            }
+    });
+    return m;
+
+}
+
+function global_search(req,res)
+{
+    let items = returnable_global_search(req,res);
+    res.send(items);
 }
 
 //1.9
@@ -345,7 +372,7 @@ function get_items_by_properties_and_company_names(req,res)
     res.send(items);
 }
 
-
+module.exports.global_search = global_search;
 module.exports.get_item_name = get_item_name;
 module.exports.update_item_name = update_item_name;
 module.exports.get_item_info = get_item_info;

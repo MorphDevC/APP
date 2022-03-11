@@ -155,13 +155,8 @@ null`
                         "includeAllFields":true,
                         "analyzers":
                             [
-                                "identity",
-                                "text_en"
-                            ],
-                        "fields":
-                            {
-
-                            }
+                                "segment_alpha"
+                            ]
                     }
                 }}
         return template

@@ -1,9 +1,7 @@
 'use strict';
 const createRouter = require('@arangodb/foxx/router');
 const router = createRouter();
-const joi = require('joi');
-const db=require('@arangodb').db;
-const aql = require('@arangodb').aql;
+const {db}=require('@arangodb');
 const dd = require('dedent');
 
 const sc=require('./JS_Support_Files/Schemas/schemas.js')
@@ -20,7 +18,7 @@ const DBF_eMail = require('./DB_Controllers_Functions/eMailFunctions.js');
 const DBF_organizationName = require('./DB_Controllers_Functions/OrganizationNameFunctions.js');
 const DBF_phone = require('./DB_Controllers_Functions/PhoneNumberFunctions.js');
 
-
+var analyzers = require("@arangodb/analyzers");
 module.context.use(router);
 
 //////////////////////////////////////////////
@@ -29,6 +27,15 @@ module.context.use(router);
 //
 // }).body(joi.required(), 'Array').response(['application/json'],  'POST request.');
 
+
+router.post('/get_analyzers', function (req,res)
+{
+    let anals=[];
+    analyzers.toArray().forEach(e=>anals.push(e.name()));
+    res.send(anals)
+
+}).body(sc.string_number, 'This body will be a string.')
+    .response(['application/text'], 'A generic greeting.')
 
 // // // 11.2
 router.post( '/insert_update_phone_item',DBF_phone.insert_update_phone_item)
@@ -52,14 +59,6 @@ router.post('/get_phone_item', DBF_phone.get_phone_item)
         2
     ]`);
 
-router.post('/get_phone_item2', DBF_phone.get_phone_item)
-    .body(sc.string_number, 'This body will be a string.')
-    .response(['application/json'], 'A generic greeting.')
-    .description(dd`Test input\n
-    [
-    "aaaaa_category_marketing_in_social_web",
-        2
-    ]`);
 
 // ////10.2
 router.post('/insert_update_organization_name_item' ,DBF_organizationName.insert_update_organization_name_item)
@@ -444,6 +443,15 @@ router.post('/get_all_sub_categories',DBF_category.get_all_sub_categories)
     [
         "de"
     ]`);
+
+//1.10
+router.post('/global_search',DBF_item.global_search)
+    .body(sc.string, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "Комп"
+]`);
 
 //1.9
 router.post('/create_new_item',DBF_item.create_new_item)
