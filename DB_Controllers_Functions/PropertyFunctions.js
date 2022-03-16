@@ -7,6 +7,38 @@ const Logs = require("../JS_Support_Files/Logs/LogsManager.js");
 const UW = require("../JS_Support_Files/SupportFiles/UniqueWords.js")
 
 
+////3.5
+function returnable_get_all_properties_v2(req,res)
+{
+
+    let {0:category,1:target_language,...other} = req.body
+    category= category.toLowerCase()
+    target_language = SFn.GetTargetLanguageDefence(target_language)
+
+    const property_collection = SFn.ReplaceWord(category,'category','properties')
+
+    const {0:props} = db._query(
+        {
+            query:`return merge(FOR property IN @@reference_property_collection
+COLLECT prefix = SPLIT(property._key,':')[0]
+INTO property_values = {
+[property._key]:
+property.name[@target_language]=="" || property.name[@target_language]==null?
+CONCAT("Missing property name '",property.name['en'], "' on language: '",@target_language,"'")
+:
+property.name[@target_language]}
+RETURN {[prefix]:merge(property_values)})`,
+            bindVars:
+                {
+                    "@reference_property_collection": property_collection,
+                    "target_language": target_language
+                }
+        }
+    ).toArray()
+
+    return props
+}
+
 // 3.4
 function returnable_get_properties_prefixes(req,res)
 {
@@ -15,7 +47,7 @@ function returnable_get_properties_prefixes(req,res)
     let k =db._query(
         {
             query:`for prefix in @@properties_options_collection
-return [prefix.name,prefix._key]`,
+return {[prefix._key]:prefix.name}`,
             bindVars:
                 {
                     "@properties_options_collection": UW.word.collections.properties_options,
@@ -169,6 +201,11 @@ RETURN property.name[@target_language]=="" || property.name[@target_language]==n
     return props
 }
 
+function get_all_properties_v2(req,res)
+{
+    let someVar = returnable_get_all_properties_v2(req,res);
+    res.send(someVar)
+}
 
 function get_properties_prefixes(req,res)
 {
@@ -192,6 +229,7 @@ function get_all_properties(req,res)
     res.send(someVar)
 }
 
+module.exports.get_all_properties_v2=get_all_properties_v2;
 module.exports.get_properties_prefixes = get_properties_prefixes;
 module.exports.insert_item_in_new_prop = insert_item_in_new_prop;
 module.exports.create_new_property_in_properties_collection = create_new_property_in_properties_collection;

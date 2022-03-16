@@ -281,6 +281,16 @@ router.post('/get_item_description',DBF_description.get_item_description)
     2  
 ]`);
 
+////3.5
+router.post('/get_all_properties_v2',DBF_property.get_all_properties_v2)
+    .body(sc.string, 'This body will be a string.')
+    .response(['application/json'], 'A generic greeting.')
+    .description(dd`Test input\n
+    [
+    "AAAAA_Category_Marketing_In_Social_Web",
+        "en"
+    ]`);
+
 //3.4 get_properties_prefixes
 router.post('/get_properties_prefixes',DBF_property.get_properties_prefixes)
     .body(sc.string, 'This body will be a string.')

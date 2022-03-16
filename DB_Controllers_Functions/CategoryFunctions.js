@@ -9,19 +9,20 @@ const UW=require("../JS_Support_Files/SupportFiles/UniqueWords.js")
 function returnable_get_all_categories(req,res)
 {
     const {0:target_language,...other} = req.body;
-    const result= db._query(
+    const {0:result}= db._query(
         {
-            query:`FOR vertex IN @@target_group_categories_collection
-LET categories_info =(    
-    FOR v, e, p IN 1..2 OUTBOUND vertex @@target_graph_categories_collection
-    COLLECT main_cat = p.vertices[0].name INTO otherInfo
-    LET category_name_key = (
-        FOR category_name IN otherInfo[*].v.name[@target_language] 
-        LET pos = POSITION(otherInfo[*].v.name[@target_language], category_name, true)
-        RETURN [category_name, NTH(otherInfo[*].v._key,pos)]) 
-    RETURN [main_cat[@target_language],category_name_key]
-        )
-RETURN categories_info[0]`,
+            query:`RETURN MERGE(FOR vertex IN @@target_group_categories_collection
+    LET categories_info =MERGE(    
+        FOR v, e, p IN 1..2 OUTBOUND vertex @@target_graph_categories_collection
+            COLLECT main_cat = p.vertices[0].name INTO otherInfo
+            LET category_name_key = MERGE(
+                FOR category_name IN otherInfo[*].v.name[@target_language] 
+                LET pos = POSITION(otherInfo[*].v.name[@target_language], category_name, true)
+                RETURN {[NTH(otherInfo[*].v._key,pos)]:category_name}
+                ) 
+            RETURN {[main_cat[@target_language]]:category_name_key}
+                )
+RETURN categories_info)`,
             bindVars:
                 {
                     "@target_group_categories_collection": UW.word.collections.group_categories,
