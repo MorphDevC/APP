@@ -246,7 +246,7 @@ router.post('/update_item_description_in_one_language',DBF_description.update_it
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
     [
-    "AAAAA_Category_Marketing_In_Social_Web",
+    "aaaaa_category_marketing_in_social_web",
     "ru",
     "New description"
     2,  
@@ -276,24 +276,23 @@ router.post('/get_item_description',DBF_description.get_item_description)
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
     [
-    "AAAAA_Category_Marketing_In_Social_Web",
+    "aaaaa_category_marketing_in_social_web",
     "ru",
     2  
 ]`);
 
 ////3.5
-router.post('/get_all_properties_v2',DBF_property.get_all_properties_v2)
+router.post('/get_all_properties_with_types',DBF_property.get_all_properties_with_types)
     .body(sc.string, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
     [
-    "AAAAA_Category_Marketing_In_Social_Web",
+    "aaaaa_category_marketing_in_social_web",
         "en"
     ]`);
 
 //3.4 get_properties_prefixes
 router.post('/get_properties_prefixes',DBF_property.get_properties_prefixes)
-    .body(sc.string, 'This body will be a string.')
     .response(['application/json'], 'A generic greeting.')
     .description(dd`Test input\n
     there is no input test`);

@@ -8,7 +8,7 @@ const UW = require("../JS_Support_Files/SupportFiles/UniqueWords.js")
 
 
 ////3.5
-function returnable_get_all_properties_v2(req,res)
+function returnable_get_all_properties_with_types(req,res)
 {
 
     let {0:category,1:target_language,...other} = req.body
@@ -44,16 +44,16 @@ function returnable_get_properties_prefixes(req,res)
 {
     //for prefix in properties_options
     // return [prefix.name,prefix._key]
-    let k =db._query(
+    let {0:k} =db._query(
         {
-            query:`for prefix in @@properties_options_collection
-return {[prefix._key]:prefix.name}`,
+            query:`return merge(for prefix in @@properties_options_collection
+return {[prefix._key]:prefix.name})`,
             bindVars:
                 {
                     "@properties_options_collection": UW.word.collections.properties_options,
                 }
         }
-    )
+    ).toArray()
     return k
 }
 
@@ -201,9 +201,9 @@ RETURN property.name[@target_language]=="" || property.name[@target_language]==n
     return props
 }
 
-function get_all_properties_v2(req,res)
+function get_all_properties_with_types(req,res)
 {
-    let someVar = returnable_get_all_properties_v2(req,res);
+    let someVar = returnable_get_all_properties_with_types(req,res);
     res.send(someVar)
 }
 
@@ -229,7 +229,7 @@ function get_all_properties(req,res)
     res.send(someVar)
 }
 
-module.exports.get_all_properties_v2=get_all_properties_v2;
+module.exports.get_all_properties_with_types=get_all_properties_with_types;
 module.exports.get_properties_prefixes = get_properties_prefixes;
 module.exports.insert_item_in_new_prop = insert_item_in_new_prop;
 module.exports.create_new_property_in_properties_collection = create_new_property_in_properties_collection;
