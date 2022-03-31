@@ -60,7 +60,8 @@ return {[prefix._key]:prefix.name})`,
 //3.3
 function returnable_insert_item_in_new_prop(req,res)
 {
-    let {0:item_category,1:item_key,2:added_properties,3:removable_properties,...other} = req.body
+    let {0:item_category,1:added_properties,2:removable_properties,3:item_key,...other} = req.body
+
     item_category = item_category?item_category.toLowerCase():null
     added_properties = SFn.Array_To_Lower_Case(added_properties)
     removable_properties=SFn.Array_To_Lower_Case(removable_properties)
@@ -74,6 +75,7 @@ function returnable_insert_item_in_new_prop(req,res)
     if(doesItemAndCategoryExist===true && doesPropertiesCollectionExists ===true)
     {
         const item_id = item_category+'/'+item_key
+
         let k =db._query(
             {
                 query:`for property in @@properties_collection
@@ -89,7 +91,7 @@ function returnable_insert_item_in_new_prop(req,res)
                     }
             }
         ) // remove id from every property
-        // TODO: maybe this one isfunction for 2.3.2 when item is switching the category
+
         k = db._query(
             {
                 query:`for property in @@properties_collection
@@ -216,7 +218,7 @@ function get_properties_prefixes(req,res)
 function insert_item_in_new_prop(req,res)
 {
     let someVar = returnable_insert_item_in_new_prop(req,res);
-    //res.send(someVar)
+    res.send(someVar)
 }
 function create_new_property_in_properties_collection(req,res)
 {

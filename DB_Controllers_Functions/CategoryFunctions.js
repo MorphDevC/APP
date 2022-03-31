@@ -106,6 +106,7 @@ function returnable_assign_subcategory_main_category(req,res)
         const to_key = UW.word.collections.support_collections_info.concat("/",target_key_sub_category);
 
         let is_sub_category_assigned_to_main_category = DBSFunctions.DoesDocumentExistsInTargetEdgeCollection(UW.word.collections.group_categories_edge,to_key,true);
+        console.log(is_sub_category_assigned_to_main_category);
         if(is_sub_category_assigned_to_main_category ===false)
         {
 

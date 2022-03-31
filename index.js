@@ -304,7 +304,6 @@ router.post('/insert_item_in_new_prop',DBF_property.insert_item_in_new_prop)
     .description(dd`Test input\n
     [
     "aaaaa_category_marketing_in_social_web",
-     2
     [
         "publishing_content_to_multiple_channels",
         "reports_and_analytics",
@@ -312,7 +311,8 @@ router.post('/insert_item_in_new_prop',DBF_property.insert_item_in_new_prop)
         "supports_facebook",
         "supports_google+",
     ],
-        [""]
+        [],
+        2,
     ]`);
 
 // // 3.2
@@ -480,7 +480,11 @@ router.post('/get_items_by_properties_and_company_names',DBF_item.get_items_by_p
     [
     "aaaaa_category_marketing_in_social_web",
     "en",
-    ["property_1_on_english","property_3_on_english","property_6_on_english","property_7_on_english"],
+    [
+    "ps:property_6_name_on_english",
+    "ps:property_3_name_on_english",
+    "ps:property_7_name_on_english"
+  ],
     ["Company_Name_5","Company_Name_17"]
 ]`);
 

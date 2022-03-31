@@ -155,7 +155,8 @@ null`
                         "includeAllFields":true,
                         "analyzers":
                             [
-                                "segment_alpha"
+                                "segment_alpha",
+                                "identity"
                             ]
                     }
                 }}

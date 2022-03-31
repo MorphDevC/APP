@@ -138,6 +138,7 @@ return {
             bindVars:
                 {
                     "target_collection": target_category,
+                    "target_company_names" : target_company_names,
                     "@target_properties_collection": target_properties_collection,
                     "targetLanguage": target_language
                 }
