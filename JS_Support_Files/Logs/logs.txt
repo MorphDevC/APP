@@ -352,3 +352,7 @@ Document already exist
 2022:02:27---22:43:59
 Object is missing property 'en'.
 
+"ERROR"
+2022:05:12---12:19:10
+Category 'aaaaвa_category_marketing_in_social_web' doesnt exist in DB
+

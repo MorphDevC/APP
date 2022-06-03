@@ -232,9 +232,7 @@ function get_all_items_in_category(req,res)
 //2.4
 function returnable_get_items_amount_of_category(req, res)
 {
-    //RETURN LENGTH(@@category)
     let {0:category,...other} = req.body
-
     category = category?category.toLowerCase():null
     const doesTargetCategoryExist = DBSFunctions.DoesCollectionExists(category)
     if(doesTargetCategoryExist===true)
@@ -389,7 +387,7 @@ update {name:merge(OLD.name,@property_names)} in support_collections_info return
         return true;
     }
 
-}
+} //4.4 448-450
 function create_new_category(req,res)
 {
     let someVar = returnable_create_new_category(req,res);
@@ -405,8 +403,6 @@ function returnable_get_all_sub_categories(req,res)
     // 2.1
     let {0:target_language,...other} = req.body
     target_language = SFn.GetTargetLanguageDefence(target_language)//defence from errors
-
-
     const cats = db._query(
         {
             query:`   LET findSchema = "_____\\\\_category%" // '_' должно быть столько, сколько букв в префиксе
@@ -425,7 +421,6 @@ concat("Missing category name '",c.name['en'], "' on language: '",@target_langua
         }
     ).toArray()
     return cats
-
 }
 function get_all_sub_categories(req,res)
 {
